@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:texnomart/data/model/catalog_menu_model.dart';
 import 'package:texnomart/data/model/hit_products_model.dart';
 import 'package:texnomart/data/model/slider_model.dart';
 import 'package:texnomart/data/model/special_categories_model.dart';
 import 'package:texnomart/data/model/top_categories_model.dart';
+import 'package:texnomart/data/source/remote/response/catalog_menu.dart';
 import 'package:texnomart/data/source/remote/service/api_catalog_menu.dart';
 import 'package:texnomart/data/source/remote/service/api_sliders.dart';
 import 'package:texnomart/data/source/remote/service/api_special_categories.dart';
@@ -62,8 +62,7 @@ class MainRepositoryImpl extends MainRepository {
   }
 
   @override
-  Future<CatalogMenuUIModel> getCatalogs() async {
-    final catalogs = await _apiCatalogMenu.getCatalogs();
-    return Converter.convertCatalogMenuResponseToUIModel(catalogs);
+  Future<CatalogMenu> getCatalogs() async {
+    return await _apiCatalogMenu.getCatalogs();
   }
 }

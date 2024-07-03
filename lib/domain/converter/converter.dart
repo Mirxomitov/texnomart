@@ -139,6 +139,7 @@ class Converter {
   // Catalog Menu
   ///
 
+/*
   static CatalogMenuUIModel convertCatalogMenuResponseToUIModel(CatalogMenu response) {
     return CatalogMenuUIModel(
       success: response.success ?? false,
@@ -198,7 +199,9 @@ class Converter {
       ),
     );
   }
+*/
 
+/*
   static List<ChildsUIModel> _convertChildList(List<Childs> childs) {
     return childs.map((child) {
       return ChildsUIModel(
@@ -209,6 +212,7 @@ class Converter {
       );
     }).toList();
   }
+*/
 
   ///
   //

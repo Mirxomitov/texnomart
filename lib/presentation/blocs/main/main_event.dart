@@ -7,3 +7,7 @@ final class ChangeBottomNavigation extends MainEvent {
 
   ChangeBottomNavigation({required this.chosenIndex});
 }
+
+final class LoadCatalogMenu extends MainEvent {
+
+}

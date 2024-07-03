@@ -5,6 +5,28 @@ class SelectedCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column();
+    return Column(
+      children: [
+        SizedBox(
+          height: 56,
+          child: ListView.builder(
+            itemBuilder: (_, __) => Container(
+              child: const Text('text'),
+            ),
+          ),
+        ),
+        const Row(
+          children: [
+            Expanded(
+              child: Row(
+                children: [],
+              ),
+            ),
+            Expanded(child: Row()),
+            Icon(Icons.add),
+          ],
+        )
+      ],
+    );
   }
 }

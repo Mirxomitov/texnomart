@@ -24,7 +24,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   // All at once
   _loadAllFromApi(LoadAllFromApi event, Emitter<HomeState> emit) async {
     emit(state.copyWith(status: Status.loading));
-
     final value = await Future.wait([
       _repository.getSliders(),
       _repository.getSpecialCategories(),
@@ -37,8 +36,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       specialCategoriesModel: value[1] as SpecialCategoriesModel,
       hitProducts: value[2] as HitProductsUIModel,
     ));
-
-    print('emitted value $value');
   }
 
   _loadSliders(LoadSliders event, Emitter<HomeState> emit) async {
@@ -53,7 +50,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _loadHitProducts(LoadHitProducts event, Emitter<HomeState> emit) async {
     final hitProducts = await _repository.getHitProducts();
-    print('hit products: $hitProducts');
     emit(state.copyWith(hitProducts: hitProducts, status: Status.success));
   }
 }

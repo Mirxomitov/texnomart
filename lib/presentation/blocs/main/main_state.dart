@@ -2,8 +2,7 @@ part of 'main_bloc.dart';
 
 class MainState {
   final int bottomNavigationIndex;
-
-  final CatalogMenuUIModel? catalogMenuUIData;
+  final CatalogMenu? catalogMenuData;
 
   factory MainState.initial() {
     return MainState(bottomNavigationIndex: 0);
@@ -11,19 +10,19 @@ class MainState {
 
   MainState({
     required this.bottomNavigationIndex,
-    this.catalogMenuUIData,
+    this.catalogMenuData,
   });
 
   MainState copyWith({
     int? bottomNavigationIndex,
-    CatalogMenuUIModel? catalogMenuUIData,
+    CatalogMenu? catalogMenuUIData,
   }) {
     return MainState(
       bottomNavigationIndex: bottomNavigationIndex ?? this.bottomNavigationIndex,
-      catalogMenuUIData: catalogMenuUIData ?? this.catalogMenuUIData,
+      catalogMenuData: catalogMenuUIData ?? this.catalogMenuData,
     );
   }
 
   @override
-  String toString() => 'MainState(bottomNavigationIndex: $bottomNavigationIndex, catalogMenuUIData: $catalogMenuUIData)';
+  String toString() => 'MainState(bottomNavigationIndex: $bottomNavigationIndex, catalogMenu: $catalogMenuData)';
 }

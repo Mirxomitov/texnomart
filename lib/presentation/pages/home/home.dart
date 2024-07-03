@@ -61,6 +61,28 @@ class _HomePageState extends State<HomePage> {
                   ),
                 if (state.specialCategoriesModel != null)
                   SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Ommabop kategoriyalar',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('hammasi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
+                              Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey[700]),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                if (state.specialCategoriesModel != null)
+                  SliverToBoxAdapter(
                     child: SizedBox(
                       height: 192,
                       child: ListView.builder(
@@ -69,6 +91,9 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (_, index) {
                           return SpecialCategoryItem(
                             data: state.specialCategoriesModel!.data[index],
+                            onTap: () {
+                              Navigator.pushNamed(context, '/selected_category');
+                            },
                           );
                         },
                       ),

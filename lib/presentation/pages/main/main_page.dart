@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
                 create: (context) => HomeBloc()..add(LoadAllFromApi()),
                 child: const HomePage(),
               ),
-              CatalogPage(catalogMenuUIModel: state.catalogMenuUIData),
+              CatalogPage(catalogMenuUIModel: state.catalogMenuData),
               const BasketPage(),
               const OrdersPage(),
               const ProfilePage(),

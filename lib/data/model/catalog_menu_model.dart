@@ -1,3 +1,4 @@
+/*
 class CatalogMenuUIModel {
   final bool success;
   final String message;
@@ -69,3 +70,4 @@ class ChildsUIModel {
     return 'ChildsUIModel(slug: $slug, name: $name, showChildsInWebMobile: $showChildsInWebMobile, childs: $childs)';
   }
 }
+*/
