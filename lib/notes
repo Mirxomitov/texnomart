@@ -1,0 +1,12 @@
+1. popup menu childlari chiqyapti
+
+
+
+chipslar
+https://gateway.texnomart.uz/api/web/v1/category/chips?slug=smartfon-samsung
+
+ekranga chiqarish uchun by page
+https://gateway.texnomart.uz/api/common/v1/search/filters?category_all=smartfon-samsung&sort=-popular&page=1
+
+https://gateway.texnomart.uz/api/web/v1/category/popular-categories?slug=smartfon-samsung
+https://gateway.texnomart.uz/api/web/v1/category/category-data?slug=smartfon-samsung

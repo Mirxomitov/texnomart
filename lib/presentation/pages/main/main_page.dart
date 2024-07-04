@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:texnomart/presentation/blocs/catalog/catalog_bloc.dart';
 import 'package:texnomart/presentation/blocs/home/home_bloc.dart';
 import 'package:texnomart/presentation/blocs/main/main_bloc.dart';
-import 'package:texnomart/presentation/pages/basket/basket.dart';
 import 'package:texnomart/presentation/pages/catalog/catalog.dart';
 import 'package:texnomart/presentation/pages/home/home.dart';
 import 'package:texnomart/presentation/pages/orders/orders.dart';
 import 'package:texnomart/presentation/pages/profile/profile.dart';
+
+import '../../blocs/basket/basket_bloc.dart';
+import '../basket/basket_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -27,6 +30,66 @@ class _MainPageState extends State<MainPage> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Colors.white,
+          body: IndexedStack(
+            index: state.bottomNavigationIndex,
+            children: [
+              BlocProvider(
+                create: (context) => HomeBloc()..add(LoadAllFromApi()),
+                child: const HomePage(),
+              ),
+              BlocProvider(
+                create: (context) => CatalogBloc()..add(GetCatalogMenuEvent()),
+                child: const CatalogPage(),
+              ),
+              BlocProvider(
+                create: (context) => BasketBloc()..add(LoadBasketData()),
+                child: const BasketPage(),
+              ),
+              const OrdersPage(),
+              const ProfilePage(),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: state.bottomNavigationIndex,
+            onTap: (int index) {
+              context.read<MainBloc>().add(ChangeBottomNavigation(chosenIndex: index));
+            },
+            backgroundColor: Colors.white,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey,
+            selectedLabelStyle: const TextStyle(fontSize: 12),
+            unselectedLabelStyle: const TextStyle(fontSize: 12),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                label: "Bosh sahifa",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.manage_search_outlined),
+                label: "Katalog",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart_outlined),
+                label: "Savatcha",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_business),
+                label: "Buyurtmalar",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                label: "Profil",
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+/*return Scaffold(
           body: IndexedStack(
             index: state.bottomNavigationIndex,
             children: [
@@ -74,8 +137,83 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
           ),
-        );
-      },
-    );
-  }
-}
+        );*/
+/*return CupertinoTabScaffold(
+          tabBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(
+                      child: BlocProvider(
+                    create: (context) => HomeBloc()..add(LoadAllFromApi()),
+                    child: const HomePage(),
+                  ));
+                });
+              case 1:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(
+                      child: BlocProvider(
+                    create: (context) => CatalogBloc()..add(GetCatalogMenuEvent()),
+                    child: const CatalogPage(),
+                  ));
+                });
+              case 2:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(
+                      child: BlocProvider(
+                    create: (context) => BasketBloc(),
+                    child: const BasketPage(),
+                  ));
+                });
+              case 3:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(
+                      child: BlocProvider(
+                    create: (context) => OrdersBloc(),
+                    child: const OrdersPage(),
+                  ));
+                });
+              case 4:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(
+                      child: BlocProvider(
+                    create: (context) => ProfileBloc(),
+                    child: const ProfilePage(),
+                  ));
+                });
+              default:
+                return Container();
+            }
+          },
+          tabBar: CupertinoTabBar(
+            onTap: (index) {
+              context.read<MainBloc>().add(ChangeBottomNavigation(chosenIndex: index));
+            },
+            activeColor: Colors.black,
+            inactiveColor: Colors.grey,
+            backgroundColor: Colors.white,
+            currentIndex: state.bottomNavigationIndex,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: "Bosh sahifa",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.manage_search_outlined),
+                label: "Katalog",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart_outlined),
+                label: "Savatcha",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_business),
+                label: "Buyurtmalar",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                label: "Profil",
+              ),
+            ],
+          ),
+        );*/

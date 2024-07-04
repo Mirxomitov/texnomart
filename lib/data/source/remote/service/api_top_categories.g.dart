@@ -32,7 +32,7 @@ class _ApiTopCategories implements ApiTopCategories {
     )
             .compose(
               _dio.options,
-              'header/top-categories/',
+              'api/web/v1/header/top-categories/',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -1,13 +1,21 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:texnomart/domain/repositories/main_repository.dart';
+
+import '../../../data/source/remote/response/catalog_menu/catalog_menu.dart';
+import '../../../di/di.dart';
 
 part 'catalog_event.dart';
 part 'catalog_state.dart';
 
 class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
-  CatalogBloc() : super(CatalogInitial()) {
-    on<CatalogEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+  final _repository = di<MainRepository>();
+
+  CatalogBloc() : super(CatalogState.initial()) {
+    on<GetCatalogMenuEvent>((event, emit) => _loadCatalogMenu(event, emit));
+  }
+
+  _loadCatalogMenu(GetCatalogMenuEvent event, Emitter<CatalogState> emit) async {
+    final data = await _repository.getCatalogs();
+    emit(state.copyWith(catalogMenuData: data));
   }
 }

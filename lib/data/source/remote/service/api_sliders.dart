@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:texnomart/data/source/remote/response/slider_response.dart';
+
+import '../response/slider/slider_response.dart';
 
 part 'api_sliders.g.dart';
 
@@ -8,7 +9,7 @@ part 'api_sliders.g.dart';
 abstract class ApiSliders {
   factory ApiSliders(Dio dio, {String baseUrl}) = _ApiSliders;
 
-  @GET('content/sliders/')
+  @GET('api/web/v1/content/sliders/')
   Future<SliderResponse> getSliders();
 }
 

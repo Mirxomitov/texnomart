@@ -32,7 +32,7 @@ class _ApiHitProducts implements ApiHitProducts {
     )
             .compose(
               _dio.options,
-              'home/special-products?type=hit_products',
+              'api/web/v1/home/special-products?type=hit_products',
               queryParameters: queryParameters,
               data: _data,
             )

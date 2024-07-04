@@ -32,7 +32,7 @@ class _ApiSpecialCategories implements ApiSpecialCategories {
     )
             .compose(
               _dio.options,
-              'home/special-categories/',
+              'api/web/v1/home/special-categories/',
               queryParameters: queryParameters,
               data: _data,
             )

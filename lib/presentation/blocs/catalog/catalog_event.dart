@@ -1,4 +1,5 @@
 part of 'catalog_bloc.dart';
 
-@immutable
-sealed class CatalogEvent {}
+abstract class CatalogEvent {}
+
+class GetCatalogMenuEvent extends CatalogEvent {}

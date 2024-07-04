@@ -9,14 +9,14 @@ class MainSearchBar extends StatelessWidget {
       alignment: Alignment.center,
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
       width: double.infinity,
       child: Row(
         children: [
-          const Icon(Icons.search),
+          const Icon(Icons.search, color: Colors.grey,),
           const SizedBox(width: 12),
           Text('Sotib olish', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey))
         ],

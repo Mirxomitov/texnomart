@@ -52,6 +52,7 @@ dependencies:
   hive_generator: ^2.0.1
   hive_flutter: ^1.1.0
   path_provider:
+  universal_web_image: ^0.1.0
 
 dev_dependencies:
   flutter_test:

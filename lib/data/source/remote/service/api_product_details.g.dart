@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'api_top_brands.dart';
+part of 'api_product_details.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'api_top_brands.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _ApiTopBrands implements ApiTopBrands {
-  _ApiTopBrands(
+class _ApiProductDetails implements ApiProductDetails {
+  _ApiProductDetails(
     this._dio, {
     this.baseUrl,
   });
@@ -19,28 +19,20 @@ class _ApiTopBrands implements ApiTopBrands {
   String? baseUrl;
 
   @override
-  Future<TopBrands> getSelectedCategory({
-    required String slug,
-    String sort = '-popular',
-    int page = 1,
-  }) async {
+  Future<ProductDetailResponse> getProductDetail({required String id}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'category_all': slug,
-      r'sort': sort,
-      r'page': page,
-    };
+    final queryParameters = <String, dynamic>{r'id': id};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<TopBrands>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ProductDetailResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              'common/v1/search/filters',
+              'api/web/v1/product/detail',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -49,7 +41,7 @@ class _ApiTopBrands implements ApiTopBrands {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = TopBrands.fromJson(_result.data!);
+    final value = ProductDetailResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -4,6 +4,9 @@ import 'package:texnomart/presentation/pages/home/components/slider.dart';
 import 'package:texnomart/presentation/pages/home/components/special_category_item.dart';
 
 import '../../blocs/home/home_bloc.dart';
+import '../../blocs/main/main_bloc.dart';
+import '../../blocs/selected_category/selected_category_bloc.dart';
+import '../selected_category/selected_category.dart';
 import 'components/hit_products.dart';
 import 'components/main_search_bar.dart';
 
@@ -62,20 +65,25 @@ class _HomePageState extends State<HomePage> {
                 if (state.specialCategoriesModel != null)
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
+                      padding: const EdgeInsets.all(12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Ommabop kategoriyalar',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('hammasi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
-                              Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey[700]),
-                            ],
+                          GestureDetector(
+                            onTap: () {
+                              context.read<MainBloc>().add(ChangeBottomNavigation(chosenIndex: 1));
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('hammasi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
+                                Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey[700]),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -92,7 +100,16 @@ class _HomePageState extends State<HomePage> {
                           return SpecialCategoryItem(
                             data: state.specialCategoriesModel!.data[index],
                             onTap: () {
-                              Navigator.pushNamed(context, '/selected_category');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) => BlocProvider(
+                                    create: (context) =>
+                                        SelectedCategoryBloc(slug: state.specialCategoriesModel!.data[index].slug)..add(LoadAllEvent()),
+                                    child: const SelectedCategory(),
+                                  ),
+                                ),
+                              );
                             },
                           );
                         },
@@ -108,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             'Xit savdo',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,

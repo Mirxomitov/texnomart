@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:texnomart/data/model/special_categories_model.dart';
 
+import '../../../../data/source/remote/service/api_product_details.dart';
+import '../../../../di/di.dart';
+
 class SpecialCategoryItem extends StatelessWidget {
   const SpecialCategoryItem({super.key, required this.data, required this.onTap});
 

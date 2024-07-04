@@ -32,7 +32,7 @@ class _ApiSliders implements ApiSliders {
     )
             .compose(
               _dio.options,
-              'content/sliders/',
+              'api/web/v1/content/sliders/',
               queryParameters: queryParameters,
               data: _data,
             )

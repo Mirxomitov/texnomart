@@ -2,7 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../response/products_all_category.dart';
+import '../response/product_all_category/products_all_category.dart';
 
 part 'api_product_all.g.dart';
 
@@ -10,10 +10,11 @@ part 'api_product_all.g.dart';
 abstract class ApiProductAll {
   factory ApiProductAll(Dio dio, {String baseUrl}) = _ApiProductAll;
 
-  @GET("common/v1/search/filters")
+  // kichki kategoriyalar
+  @GET("api/common/v1/search/filters")
   Future<ProductAllCategory> getCategoryProductSimple({
-    @Query("category_all") required String category,
-    @Query("sort") String? sort,
-    @Query("page") String? number,
+    @Query("category_all") required String slug,
+    @Query("sort") String sort = "-popular",
+    @Query("page") int page = 1,
   });
 }

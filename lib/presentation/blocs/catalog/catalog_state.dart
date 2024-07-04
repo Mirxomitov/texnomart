@@ -1,6 +1,20 @@
 part of 'catalog_bloc.dart';
 
-@immutable
-sealed class CatalogState {}
+class CatalogState {
+  final CatalogMenu? catalogMenuData;
 
-final class CatalogInitial extends CatalogState {}
+  const CatalogState({this.catalogMenuData});
+
+  factory CatalogState.initial() {
+    return const CatalogState();
+  }
+
+  CatalogState copyWith({CatalogMenu? catalogMenuData}) {
+    return CatalogState(catalogMenuData: catalogMenuData ?? this.catalogMenuData);
+  }
+
+  @override
+  String toString() {
+    return 'CatalogState(catalogMenuData: $catalogMenuData)';
+  }
+}
