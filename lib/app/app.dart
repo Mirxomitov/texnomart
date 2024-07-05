@@ -15,28 +15,31 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Color(0xfffdc202)));
 
-    return MaterialApp(
-      title: 'Texnomart',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xfffdc202),
-          primary: const Color(0xfffdc202),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => MainBloc()),
+        BlocProvider(create: (_) => BasketBloc()),
+      ],
+      child: MaterialApp(
+        title: 'Texnomart',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xfffdc202),
+            primary: const Color(0xfffdc202),
+          ),
+          useMaterial3: true,
+          scaffoldBackgroundColor: const Color(0xFFF3F1F1),
         ),
-        useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF3F1F1),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const MainPage(),
+          '/home': (context) => BlocProvider(
+                create: (context) => HomeBloc(),
+                child: const HomePage(),
+              ),
+        },
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => MultiBlocProvider(providers: [
-              BlocProvider(create: (_) => MainBloc()),
-              BlocProvider(create: (_) => BasketBloc()),
-            ], child: const MainPage()),
-        '/home': (context) => BlocProvider(
-              create: (context) => HomeBloc(),
-              child: const HomePage(),
-            ),
-      },
     );
   }
 }

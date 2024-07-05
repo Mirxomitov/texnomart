@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:texnomart/data/source/local/hive/hive_helper.dart';
 
+import '../../../data/model/favourite_model/favourite_model.dart';
 import '../../../utils/status.dart';
 
 part 'profile_event.dart';

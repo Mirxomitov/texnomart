@@ -36,6 +36,18 @@ final class Decrement extends BasketEvent {
   Decrement({required this.index});
 }
 
+final class AddToFavorite extends BasketEvent {
+  final int index;
+
+  AddToFavorite({required this.index});
+}
+
+final class RemoveFromFavorite extends BasketEvent {
+  final int index;
+
+  RemoveFromFavorite({required this.index});
+}
+
 /*
   all checked
   list basketdata box

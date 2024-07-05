@@ -31,10 +31,11 @@ class _BasketPageState extends State<BasketPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24.0),
-                    child: Row(
-                      children: [
+                  if (state.basketList != null && state.basketList!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: Row(
+                        children: [
                         const Text("Tanlanganlarni o'chirish", style: TextStyle(fontSize: 14, color: Colors.black45)),
                         const Spacer(),
                         const Text("Hammasini tanlash", style: TextStyle(fontSize: 14, color: Colors.black54)),
@@ -59,7 +60,7 @@ class _BasketPageState extends State<BasketPage> {
                       ],
                     ),
                   ),
-                  const Divider(thickness: 0.6, color: Colors.black12),
+                  if (state.basketList != null && state.basketList!.isNotEmpty) const Divider(thickness: 0.6, color: Colors.black12),
                   if (state.basketList != null && state.basketList!.isNotEmpty)
                     for (int i = 0; i < state.basketList!.length; ++i)
                       BasketItem(
@@ -67,36 +68,42 @@ class _BasketPageState extends State<BasketPage> {
                         index: i,
                       )
                   else ...[
-                    const SizedBox(height: 24),
-                    Center(
-                      child: Column(
-                        children: [
-                          SvgPicture.asset('assets/svgs/empty_basket_icon.svg', height: 56, width: 56),
-                          const SizedBox(height: 12),
-                          Text(
-                            "Savatada hali hech narsa yo'q",
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          Container(
-                              margin: const EdgeInsets.all(16),
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                "Xarid qilishga o'ting",
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-                              ))
-                        ],
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/svgs/empty_basket_icon.svg', height: 56, width: 56),
+                            const SizedBox(height: 12),
+                            Text(
+                              "Savatada hali hech narsa yo'q",
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  "Xarid qilishga o'ting",
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                                ))
+                          ],
+                        ),
                       ),
                     ),
                   ],
                   const SizedBox(height: 24),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                  if (state.basketList != null && state.basketList!.isNotEmpty)
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         width: 1,
                         color: Colors.black12,

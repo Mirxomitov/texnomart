@@ -18,15 +18,27 @@ class FavouriteModelAdapter extends TypeAdapter<FavouriteModel> {
     };
     return FavouriteModel(
       productId: fields[0] as int,
+      name: fields[1] as String,
+      price: fields[2] as double,
+      image: fields[3] as String,
+      isInBasket: fields[4] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, FavouriteModel obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.productId);
+      ..write(obj.productId)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.price)
+      ..writeByte(3)
+      ..write(obj.image)
+      ..writeByte(4)
+      ..write(obj.isInBasket);
   }
 
   @override

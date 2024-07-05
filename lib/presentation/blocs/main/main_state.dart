@@ -2,8 +2,6 @@ part of 'main_bloc.dart';
 
 class MainState {
   final int bottomNavigationIndex;
-  final CatalogMenu? catalogMenuData;
-  final BasketModel? data;
   final int notificationCount;
   final Status status;
 
@@ -17,8 +15,6 @@ class MainState {
 
   MainState({
     required this.bottomNavigationIndex,
-    this.catalogMenuData,
-    this.data,
     required this.notificationCount,
     required this.status,
   });
@@ -32,13 +28,11 @@ class MainState {
   }) {
     return MainState(
       bottomNavigationIndex: bottomNavigationIndex ?? this.bottomNavigationIndex,
-      catalogMenuData: catalogMenuUIData ?? catalogMenuData,
-      data: data ?? this.data,
       notificationCount: notificationCount ?? this.notificationCount,
       status: status ?? this.status,
     );
   }
 
   @override
-  String toString() => 'MainState(bottomNavigationIndex: $bottomNavigationIndex, catalogMenu: $catalogMenuData, data: $data, status: $status)';
+  String toString() => 'MainState(bottomNavigationIndex: $bottomNavigationIndex,status: $status)';
 }

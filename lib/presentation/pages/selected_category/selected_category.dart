@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:texnomart/data/model/chips_model.dart';
+import 'package:texnomart/data/model/favourite_model/favourite_model.dart';
 import 'package:texnomart/data/source/remote/response/product_all_category/products_all_category.dart';
 import 'package:texnomart/presentation/pages/product_details/product_details.dart';
 import 'package:texnomart/utils/to_value.dart';
 
+import '../../../data/source/local/hive/hive_helper.dart';
 import '../../blocs/product_details/product_details_bloc.dart';
 import '../../blocs/selected_category/selected_category_bloc.dart';
 
@@ -147,10 +149,17 @@ class ItemsGridView extends StatelessWidget {
   }
 }
 
-class ProductItem extends StatelessWidget {
+class ProductItem extends StatefulWidget {
   final Products data;
 
   const ProductItem({super.key, required this.data});
+
+  @override
+  State<ProductItem> createState() => _ProductItemState();
+}
+
+class _ProductItemState extends State<ProductItem> {
+  bool get isFavourite => HiveHelper.hasInFavourite(widget.data.id!);
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +169,7 @@ class ProductItem extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => ProductDetailsBloc(productId: data.id!)..add(LoadProductDetailsEvent()),
+              create: (context) => ProductDetailsBloc(productId: widget.data.id!)..add(LoadProductDetailsEvent()),
               child: const ProductDetails(),
             ),
           ),
@@ -174,21 +183,21 @@ class ProductItem extends StatelessWidget {
           children: [
             Stack(
               children: [
-                if (data.image != null && !data.image!.endsWith('.svg'))
+                if (widget.data.image != null && !widget.data.image!.endsWith('.svg'))
                   CachedNetworkImage(
-                    imageUrl: data.image!,
+                    imageUrl: widget.data.image!,
                     height: 156,
                     width: 156,
                     // fit: BoxFit.none,
                   )
                 else
                   SvgPicture.network(
-                    data.image!,
+                    widget.data.image!,
                     height: 156,
                     width: 156,
                     // fit: BoxFit.none,
                   ),
-                if (data.stickers != null && data.stickers!.isNotEmpty && data.stickers![0].backgroundColor != null)
+                if (widget.data.stickers != null && widget.data.stickers!.isNotEmpty && widget.data.stickers![0].backgroundColor != null)
                   Positioned(
                     left: 5,
                     top: 10,
@@ -196,13 +205,13 @@ class ProductItem extends StatelessWidget {
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
-                        color: _colorFromHex(data.stickers![0].backgroundColor!),
+                        color: _colorFromHex(widget.data.stickers![0].backgroundColor!),
                       ),
                       child: Text(
-                        data.stickers![0].name!,
+                        widget.data.stickers![0].name!,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: _colorFromHex(data.stickers![0].textColor!),
+                              color: _colorFromHex(widget.data.stickers![0].textColor!),
                             ),
                       ),
                     ),
@@ -210,24 +219,42 @@ class ProductItem extends StatelessWidget {
                 Positioned(
                   left: 10,
                   bottom: 10,
-                  child: SvgPicture.network(data.saleMonths![0].image!),
+                  child: SvgPicture.network(widget.data.saleMonths![0].image!),
                 ),
                 Positioned(
                   right: 10,
                   top: 10,
                   child: Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white.withAlpha(700),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Image.asset(
-                          'assets/images/heart.png',
-                          height: 18,
-                          width: 18,
-                          color: Colors.grey[800],
+                      GestureDetector(
+                        onTap: () {
+                          if (isFavourite) {
+                            HiveHelper.deleteFavouriteDataById(widget.data.id!);
+                            setState(() {});
+                          } else {
+                            HiveHelper.addToFavourite(
+                              FavouriteModel(
+                                productId: widget.data.id!,
+                                name: widget.data.name!,
+                                price: widget.data.loanPrice!,
+                                image: widget.data.image!,
+                                isInBasket: HiveHelper.hasInBasket(
+                                  widget.data.id!,
+                                ),
+                              ),
+                            );
+                            setState(() {});
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white.withAlpha(700),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: isFavourite
+                              ? Icon(Icons.favorite, color: Colors.grey[800], size: 18)
+                              : Icon(Icons.favorite_border, color: Colors.grey[800], size: 18),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -251,7 +278,7 @@ class ProductItem extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              data.name!,
+              widget.data.name!,
               style: Theme.of(context).textTheme.bodySmall,
               maxLines: 2,
             ),
@@ -270,7 +297,7 @@ class ProductItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      "${(data.salePrice! * 1.36 / 24).toString().toValue()} so'mdan / 24 oy ",
+                      "${(widget.data.salePrice! * 1.36 / 24).toString().toValue()} so'mdan / 24 oy ",
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey.shade600, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -283,13 +310,13 @@ class ProductItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      "${(data.salePrice! / 12).toString().toValue()} so'm / 0.0.12",
+                      "${(widget.data.salePrice! / 12).toString().toValue()} so'm / 0.0.12",
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey.shade600, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    "${data.salePrice.toString().toValue()} so'm",
+                    "${widget.data.salePrice.toString().toValue()} so'm",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ],

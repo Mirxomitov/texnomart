@@ -17,12 +17,35 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
   ProductDetailsBloc({required int productId}) : super(ProductDetailsState.initial(productId)) {
     on<LoadProductDetailsEvent>((event, emit) => _loadDetails(event, emit));
     on<AddToFavourites>((event, emit) {
-      MainRepository.addToFavourite(FavouriteModel(productId: state.productId));
+      final favourite = FavouriteModel(
+        productId: state.productData!.data.data.id,
+        image: state.productData!.data.data.smallImages[1],
+        name: state.productData!.data.data.name,
+        price: state.productData!.data.data.salePrice.toDouble(),
+        isInBasket: state.inBasket,
+      );
+
+      MainRepository.addToFavourite(favourite);
       emit(state.copyWith(isFavourite: true));
+
+      print("is favourite: $favourite");
+
+      print('all favourites: ${MainRepository.loadFavourites()}');
     });
     on<RemoveFromFavourites>((event, emit) {
-      MainRepository.removeFromFavourite(FavouriteModel(productId: state.productId));
+      final favourite = FavouriteModel(
+        productId: state.productData!.data.data.id,
+        image: state.productData!.data.data.smallImages[1],
+        name: state.productData!.data.data.name,
+        price: state.productData!.data.data.salePrice.toDouble(),
+        isInBasket: state.inBasket,
+      );
+
+      MainRepository.removeFromFavourite(favourite);
       emit(state.copyWith(isFavourite: false));
+      print("is favourite: ${state.isFavourite}");
+
+      print('all favourites: ${MainRepository.loadFavourites()}');
     });
     on<AddToBasket>((event, emit) {
       if (event.inBasket) {

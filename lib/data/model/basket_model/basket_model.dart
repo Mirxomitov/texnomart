@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:texnomart/data/model/favourite_model/favourite_model.dart';
 
 part 'basket_model.g.dart';
 
@@ -52,4 +53,19 @@ class BasketModel extends HiveObject {
   int get hashCode {
     return productId.hashCode ^ name.hashCode ^ price.hashCode ^ image.hashCode ^ count.hashCode ^ isChecked.hashCode ^ isFavourite.hashCode;
   }
+
+  FavouriteModel toFavouriteModel(bool isInBasket) {
+    return FavouriteModel(
+      productId: int.parse(productId),
+      name: name,
+      price: price,
+      image: image,
+      isInBasket: isInBasket,
+    );
+  }
 }
+
+/*
+Hiveda basket model bor. => Barcha ma'lumotlar
+Hiveda favourite model bor. => faqat id
+ */

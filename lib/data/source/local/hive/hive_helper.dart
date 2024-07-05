@@ -30,11 +30,34 @@ class HiveHelper {
     return true;
   }
 
-  static bool has(int productId) {
+  static void addToFavourite(FavouriteModel data) {
+    for (int i = 0; i < favourite.values.length; ++i) {
+      if (data.productId == favourite.values.elementAt(i).productId) return;
+    }
+
+    favourite.add(data);
+    print('addToFavourite ${data.name} ${data.productId}');
+  }
+
+  static bool hasInBasket(int productId) {
     for (var value in basket.values) {
       if (value.productId == '$productId') return true;
     }
 
     return false;
+  }
+
+  static bool hasInFavourite(int productId) {
+    for (var value in favourite.values) {
+      if (value.productId == productId) return true;
+    }
+
+    return false;
+  }
+
+  static void deleteFavouriteDataById(int id) {
+    final value = favourite.values.firstWhere((element) => element.productId == id);
+    favourite.delete(value.key);
+    print('deleteFavouriteDataById $id name: ${value.name}');
   }
 }

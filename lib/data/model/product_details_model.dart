@@ -1,3 +1,5 @@
+import 'package:texnomart/data/model/favourite_model/favourite_model.dart';
+
 class ProductDetailModel {
   final bool success;
   final String message;

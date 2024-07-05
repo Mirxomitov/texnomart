@@ -13,7 +13,7 @@ class CarouselDetails extends StatefulWidget {
 }
 
 class _CarouselDetailsState extends State<CarouselDetails> {
-  int position = 1;
+  int position = 0;
 
   @override
   Widget build(BuildContext context) {

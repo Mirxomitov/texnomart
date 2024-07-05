@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:texnomart/presentation/blocs/catalog/catalog_bloc.dart';
 import 'package:texnomart/presentation/blocs/home/home_bloc.dart';
 import 'package:texnomart/presentation/blocs/main/main_bloc.dart';
+import 'package:texnomart/presentation/blocs/profile/profile_bloc.dart';
 import 'package:texnomart/presentation/pages/catalog/catalog.dart';
 import 'package:texnomart/presentation/pages/home/home.dart';
 import 'package:texnomart/presentation/pages/orders/orders.dart';
@@ -32,6 +33,7 @@ class _MainPageState extends State<MainPage> {
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         context.read<BasketBloc>().add(LoadBasketData());
+        setState(() {});
       },
       builder: (context, state) {
         return Scaffold(
@@ -50,8 +52,11 @@ class _MainPageState extends State<MainPage> {
                   child: const CatalogPage(),
                 ),
                 const BasketPage(),
-                const OrdersPage(),
-                const ProfilePage(),
+                    const OrdersPage(),
+                    BlocProvider(
+                      create: (context) => ProfileBloc(),
+                      child: const ProfilePage(),
+                    ),
                   ]),
                 Status.fail => const Center(child: Text('Kutilmagan xatolik', style: TextStyle(color: Colors.red))),
                 Status.initial => const Center(),

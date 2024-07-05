@@ -12,25 +12,24 @@ import '../../data/source/remote/response/catalog_menu/catalog_menu.dart';
 import '../../data/source/remote/response/product_all_category/products_all_category.dart';
 
 abstract class MainRepository {
-  static Set<BasketModel> basketData = HiveHelper.basket.values.toList().toSet();
-  static Set<FavouriteModel> favouriteData = HiveHelper.favourite.values.toList().toSet();
-
   static void addToBasket(BasketModel data) {
-    basketData.add(data);
     HiveHelper.basket.add(data);
   }
 
   static void removeFromBasket(BasketModel data) {
-    basketData.remove(data);
     HiveHelper.deleteBasketData(data);
   }
 
   static void addToFavourite(FavouriteModel data) {
-    HiveHelper.favourite.add(data);
+    HiveHelper.addToFavourite(data);
   }
 
   static void removeFromFavourite(FavouriteModel data) {
     HiveHelper.deleteFavouriteData(data);
+  }
+
+  static List<FavouriteModel> loadFavourites() {
+    return HiveHelper.favourite.values.toList();
   }
 
   Future<SliderModel> getSliders();

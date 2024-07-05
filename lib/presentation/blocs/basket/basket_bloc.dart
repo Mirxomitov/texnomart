@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/data/model/basket_model/basket_model.dart';
 import 'package:texnomart/data/source/local/hive/hive_helper.dart';
-import 'package:texnomart/domain/repositories/main_repository.dart';
 
 import '../../../utils/status.dart';
 
@@ -16,29 +15,33 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     on<Increment>((event, emit) => _increment(event, emit));
     on<Decrement>((event, emit) => _decrement(event, emit));
     on<RemoveProduct>((event, emit) => _removeProduct(event, emit));
+    on<AddToFavorite>((event, emit) => _addToFavourite(event, emit));
+    on<RemoveFromFavorite>((event, emit) => _removeFromFavourite(event, emit));
   }
 
   _loadBasketData(LoadBasketData event, Emitter<BasketState> emit) {
-    final value = MainRepository.basketData.toList();
-    print("bloc loaded data : $value");
+    final ls = HiveHelper.basket.values.toList();
+    print("bloc loaded data : $ls");
     emit(
       state.copyWith(
-        basketList: value,
-        allCount: value.length,
+        basketList: ls,
+        allCount: ls.length,
         status: Status.success,
-        allChecked: _checkAllChecked(value),
-        allPrice: _calculatePrice(value.toList()),
+        allChecked: _checkAllChecked(ls),
+        allPrice: _calculatePrice(ls.toList()),
       ),
     );
   }
 
   _onClickCheckBox(OnClickCheckBox event, Emitter<BasketState> emit) {
-    final value = state.basketList![event.index];
-    value.isChecked = !value.isChecked;
+    final ls = state.basketList![event.index];
+    ls.isChecked = !ls.isChecked;
 
-    print('on click check');
-
-    emit(state.copyWith(basketList: state.basketList, allPrice: _calculatePrice(state.basketList!)));
+    emit(state.copyWith(
+      basketList: state.basketList,
+      allChecked: _checkAllChecked(state.basketList!),
+      allPrice: _calculatePrice(state.basketList!),
+    ));
   }
 
   _onChangeAllChecks(ChangeAllChecks event, Emitter<BasketState> emit) {
@@ -105,14 +108,26 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   _removeProduct(RemoveProduct event, Emitter<BasketState> emit) {
     print('delete');
     final ls = state.basketList!;
-    try {
-      MainRepository.basketData.remove(ls[event.index]);
-      ls.removeAt(event.index);
-      HiveHelper.deleteBasketData(ls[event.index]);
-    } catch (e) {
-      print("basket ls: $ls");
-    }
+    HiveHelper.deleteBasketData(ls[event.index]);
+    ls.removeAt(event.index);
 
-    emit(state.copyWith(basketList: ls, allPrice: _calculatePrice(ls), allCount: ls.length, allChecked: _checkAllChecked(ls)));
+    emit(state.copyWith(
+      basketList: ls,
+      allPrice: _calculatePrice(ls),
+      allCount: ls.length,
+      allChecked: _checkAllChecked(ls),
+    ));
+  }
+
+  _addToFavourite(AddToFavorite event, Emitter<BasketState> emit) {
+    state.basketList![event.index].isFavourite = true;
+    HiveHelper.addToFavourite(state.basketList![event.index].toFavouriteModel(true));
+    emit(state.copyWith(basketList: state.basketList));
+  }
+
+  _removeFromFavourite(RemoveFromFavorite event, Emitter<BasketState> emit) {
+    state.basketList![event.index].isFavourite = false;
+    HiveHelper.deleteFavouriteData(state.basketList![event.index].toFavouriteModel(false));
+    emit(state.copyWith(basketList: state.basketList));
   }
 }

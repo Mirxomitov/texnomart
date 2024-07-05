@@ -41,14 +41,15 @@ class ProductDetailsState {
       productData: productData ?? this.productData,
       inBasket: inBasket ?? this.inBasket,
       status: status ?? this.status,
-        isFavourite: isFavourite ?? this.isFavourite);
+      isFavourite: isFavourite ?? this.isFavourite,
+    );
   }
 
   bool _checkHasInBasket(int productId) {
-    return HiveHelper.has(productId);
+    return HiveHelper.hasInBasket(productId);
   }
 
   bool _checkIsFavourite(int productId) {
-    return HiveHelper.has(productId);
+    return HiveHelper.hasInBasket(productId);
   }
 }

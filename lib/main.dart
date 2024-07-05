@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:texnomart/data/model/basket_model/basket_model.dart';
+import 'package:texnomart/data/model/favourite_model/favourite_model.dart';
 import 'package:texnomart/di/di.dart';
 
 import 'app/app.dart';
@@ -13,7 +14,7 @@ Future<void> main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   Hive.registerAdapter(BasketModelAdapter());
-  //await PrefHelper.init();
+  Hive.registerAdapter(FavouriteModelAdapter());
   await HiveHelper.init();
   runApp(const MyApp());
 }
