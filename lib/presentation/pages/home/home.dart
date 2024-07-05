@@ -1,159 +1,1 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:texnomart/presentation/pages/home/components/slider.dart';
-import 'package:texnomart/presentation/pages/home/components/special_category_item.dart';
-
-import '../../blocs/home/home_bloc.dart';
-import '../../blocs/main/main_bloc.dart';
-import '../../blocs/selected_category/selected_category_bloc.dart';
-import '../selected_category/selected_category.dart';
-import 'components/hit_products.dart';
-import 'components/main_search_bar.dart';
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  var currentPage = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          return Container(
-            color: Colors.white,
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  pinned: false,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('texnomart', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-                      Image.asset('assets/images/logo_texnomart.png', height: 18, width: 18),
-                    ],
-                  ),
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  centerTitle: true,
-                ),
-                SliverAppBar(
-                  pinned: true,
-                  shape: const ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                  ),
-                  collapsedHeight: 64,
-                  scrolledUnderElevation: 0,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  flexibleSpace: const FlexibleSpaceBar(
-                    background: MainSearchBar(),
-                  ),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 12)),
-                if (state.sliders != null)
-                  SliverToBoxAdapter(
-                    child: TopSlider(sliders: state.sliders!),
-                  ),
-                if (state.specialCategoriesModel != null)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Ommabop kategoriyalar',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              context.read<MainBloc>().add(ChangeBottomNavigation(chosenIndex: 1));
-                            },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('hammasi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
-                                Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey[700]),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                if (state.specialCategoriesModel != null)
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 192,
-                      child: ListView.builder(
-                        itemCount: state.specialCategoriesModel!.data.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (_, index) {
-                          return SpecialCategoryItem(
-                            data: state.specialCategoriesModel!.data[index],
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (ctx) => BlocProvider(
-                                    create: (context) =>
-                                        SelectedCategoryBloc(slug: state.specialCategoriesModel!.data[index].slug)..add(LoadAllEvent()),
-                                    child: const SelectedCategory(),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                if (state.hitProducts != null)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Xit savdo',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('hammasi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
-                              Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey[700]),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                const SliverToBoxAdapter(child: SizedBox(height: 12)),
-                if (state.hitProducts != null)
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 324,
-                      child: HitProducts(hitProducts: state.hitProducts!),
-                    ),
-                  ),
-                const SliverToBoxAdapter(child: SizedBox(height: 12)),
-                if (state.hitProducts != null) SliverToBoxAdapter(child: Divider(thickness: 1, color: Colors.grey[100])),
-                const SliverToBoxAdapter(child: SizedBox(height: 12)),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+import 'package:flutter/material.dart';import 'package:flutter_bloc/flutter_bloc.dart';import 'package:lottie/lottie.dart';import 'package:texnomart/presentation/pages/home/components/slider.dart';import 'package:texnomart/presentation/pages/home/components/special_category_item.dart';import '../../../utils/status.dart';import '../../blocs/home/home_bloc.dart';import '../../blocs/main/main_bloc.dart';import '../../blocs/selected_category/selected_category_bloc.dart';import '../selected_category/selected_category.dart';import 'components/hit_products.dart';import 'components/main_search_bar.dart';class HomePage extends StatefulWidget {  const HomePage({super.key});  @override  State<HomePage> createState() => _HomePageState();}class _HomePageState extends State<HomePage> {  var currentPage = 0;  @override  Widget build(BuildContext context) {    return SafeArea(      child: BlocBuilder<HomeBloc, HomeState>(        builder: (context, state) {          return switch (state.status) {            Status.loading => Container(alignment: Alignment.center, child: Lottie.asset("assets/lottie/loading.json", width: 34, height: 34)),            Status.success => Container(                color: Colors.white,                child: CustomScrollView(                  slivers: [                    SliverAppBar(                      pinned: false,                      title: Row(                        mainAxisAlignment: MainAxisAlignment.center,                        crossAxisAlignment: CrossAxisAlignment.start,                        children: [                          Text('texnomart', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),                          Image.asset('assets/images/logo_texnomart.png', height: 18, width: 18),                        ],                      ),                      backgroundColor: Theme.of(context).colorScheme.primary,                      centerTitle: true,                    ),                    SliverAppBar(                      pinned: true,                      shape: const ContinuousRectangleBorder(                        borderRadius: BorderRadius.only(                          bottomLeft: Radius.circular(30),                          bottomRight: Radius.circular(30),                        ),                      ),                      collapsedHeight: 64,                      scrolledUnderElevation: 0,                      backgroundColor: Theme.of(context).primaryColor,                      flexibleSpace: const FlexibleSpaceBar(                        background: MainSearchBar(),                      ),                    ),                    const SliverToBoxAdapter(child: SizedBox(height: 12)),                    if (state.sliders != null)                      SliverToBoxAdapter(                        child: TopSlider(sliders: state.sliders!),                      ),                    if (state.specialCategoriesModel != null)                      SliverToBoxAdapter(                        child: Padding(                          padding: const EdgeInsets.all(12),                          child: Row(                            mainAxisAlignment: MainAxisAlignment.spaceBetween,                            children: [                              Text(                                'Ommabop kategoriyalar',                                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),                              ),                              GestureDetector(                                onTap: () {                                  context.read<MainBloc>().add(ChangeBottomNavigation(chosenIndex: 1));                                },                                child: Row(                                  crossAxisAlignment: CrossAxisAlignment.center,                                  children: [                                    Text('hammasi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),                                    Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey[700]),                                  ],                                ),                              ),                            ],                          ),                        ),                      ),                    if (state.specialCategoriesModel != null)                      SliverToBoxAdapter(                        child: SizedBox(                          height: 192,                          child: ListView.builder(                            itemCount: state.specialCategoriesModel!.data.length,                            scrollDirection: Axis.horizontal,                            itemBuilder: (_, index) {                              return SpecialCategoryItem(                                data: state.specialCategoriesModel!.data[index],                                onTap: () {                                  Navigator.push(                                    context,                                    MaterialPageRoute(                                      builder: (ctx) => BlocProvider(                                        create: (context) =>                                            SelectedCategoryBloc(slug: state.specialCategoriesModel!.data[index].slug)..add(LoadAllEvent()),                                        child: const SelectedCategory(),                                      ),                                    ),                                  );                                },                              );                            },                          ),                        ),                      ),                    if (state.hitProducts != null)                      SliverToBoxAdapter(                        child: Padding(                          padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),                          child: Row(                            mainAxisAlignment: MainAxisAlignment.spaceBetween,                            children: [                              Text(                                'Xit savdo',                                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),                              ),                              Row(                                crossAxisAlignment: CrossAxisAlignment.center,                                children: [                                  Text('hammasi', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),                                  Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey[700]),                                ],                              ),                            ],                          ),                        ),                      ),                    const SliverToBoxAdapter(child: SizedBox(height: 12)),                    if (state.hitProducts != null)                      SliverToBoxAdapter(                        child: SizedBox(                          height: 324,                          child: HitProducts(hitProducts: state.hitProducts!),                        ),                      ),                    const SliverToBoxAdapter(child: SizedBox(height: 12)),                    if (state.hitProducts != null) SliverToBoxAdapter(child: Divider(thickness: 1, color: Colors.grey[100])),                    const SliverToBoxAdapter(child: SizedBox(height: 12)),                  ],                ),              ),            Status.fail => Center(child: Text('Kutilmagan hatolik', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.red))),            Status.initial => const Center(),          };        },      ),    );  }}

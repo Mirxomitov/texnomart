@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/presentation/blocs/catalog/catalog_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:texnomart/presentation/pages/home/home.dart';
 import 'package:texnomart/presentation/pages/orders/orders.dart';
 import 'package:texnomart/presentation/pages/profile/profile.dart';
 
+import '../../../utils/status.dart';
 import '../../blocs/basket/basket_bloc.dart';
 import '../basket/basket_page.dart';
 
@@ -27,29 +29,40 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainBloc, MainState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.bottomNavigationIndex == 2) {
+          // change state of basket screen
+          print('basket reload');
+          context.read<BasketBloc>().add(LoadBasketData());
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.white,
-          body: IndexedStack(
-            index: state.bottomNavigationIndex,
-            children: [
-              BlocProvider(
-                create: (context) => HomeBloc()..add(LoadAllFromApi()),
-                child: const HomePage(),
-              ),
-              BlocProvider(
-                create: (context) => CatalogBloc()..add(GetCatalogMenuEvent()),
-                child: const CatalogPage(),
-              ),
-              BlocProvider(
-                create: (context) => BasketBloc()..add(LoadBasketData()),
-                child: const BasketPage(),
-              ),
-              const OrdersPage(),
-              const ProfilePage(),
-            ],
-          ),
+          body: Builder(builder: (context) {
+            if (state.status == Status.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return IndexedStack(
+              index: state.bottomNavigationIndex,
+              children: [
+                BlocProvider(
+                  create: (context) => HomeBloc()..add(LoadAllFromApi()),
+                  child: const HomePage(),
+                ),
+                BlocProvider(
+                  create: (context) => CatalogBloc()..add(GetCatalogMenuEvent()),
+                  child: const CatalogPage(),
+                ),
+                const BasketPage(),
+                const OrdersPage(),
+                const ProfilePage(),
+              ],
+            );
+          }),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: state.bottomNavigationIndex,
@@ -61,24 +74,28 @@ class _MainPageState extends State<MainPage> {
             unselectedItemColor: Colors.grey,
             selectedLabelStyle: const TextStyle(fontSize: 12),
             unselectedLabelStyle: const TextStyle(fontSize: 12),
-            items: const [
-              BottomNavigationBarItem(
+            items: [
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
                 label: "Bosh sahifa",
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.manage_search_outlined),
                 label: "Katalog",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart_outlined),
+                icon: badges.Badge(
+                  showBadge: state.notificationCount != 0,
+                  badgeContent: Text("${state.notificationCount}"),
+                  child: const Icon(Icons.shopping_cart_rounded),
+                ),
                 label: "Savatcha",
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.add_business),
                 label: "Buyurtmalar",
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline),
                 label: "Profil",
               ),

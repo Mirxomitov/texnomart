@@ -8,6 +8,10 @@ final class ChangeBottomNavigation extends MainEvent {
   ChangeBottomNavigation({required this.chosenIndex});
 }
 
-final class LoadCatalogMenu extends MainEvent {
+final class LoadCatalogMenu extends MainEvent {}
 
+final class AddToBasket extends MainEvent {
+  final BasketModel data;
+
+  AddToBasket({required this.data});
 }

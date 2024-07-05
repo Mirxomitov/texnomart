@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:texnomart/presentation/blocs/basket/basket_bloc.dart';
 import 'package:texnomart/presentation/blocs/home/home_bloc.dart';
 import 'package:texnomart/presentation/pages/home/home.dart';
 
@@ -27,13 +28,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => BlocProvider(
-              create: (context) => MainBloc(),
-              child: const MainPage(),
-            ),
+        '/': (context) => MultiBlocProvider(providers: [
+              BlocProvider(create: (_) => MainBloc()),
+              BlocProvider(create: (_) => BasketBloc()),
+            ], child: const MainPage()),
         '/home': (context) => BlocProvider(
               create: (context) => HomeBloc(),
-              child: const HomePage(),
+              child: HomePage(),
             ),
       },
     );

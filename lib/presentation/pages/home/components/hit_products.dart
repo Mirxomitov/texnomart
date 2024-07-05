@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:texnomart/data/model/hit_products_model.dart';
 
+import '../../../../data/model/basket_model/basket_model.dart';
 import 'hit_product_item.dart';
 
 class HitProducts extends StatelessWidget {
-  const HitProducts({super.key, required this.hitProducts});
-
   final HitProductsUIModel hitProducts;
+
+  const HitProducts({super.key, required this.hitProducts});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,9 @@ class HitProducts extends StatelessWidget {
       itemCount: hitProducts.data.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (_, index) {
-        return HitProductItem(data: hitProducts.data[index]);
+        return HitProductItem(
+          data: hitProducts.data[index],
+        );
       },
     );
   }

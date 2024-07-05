@@ -1,6 +1,8 @@
 part of 'selected_category_bloc.dart';
 
 class SelectedCategoryState {
+  final Status status;
+
   final String slug;
   final String sort;
   final int page;
@@ -13,6 +15,7 @@ class SelectedCategoryState {
       slug: slug,
       sort: '-popular',
       page: 1,
+      status: Status.initial,
     );
   }
 
@@ -22,6 +25,7 @@ class SelectedCategoryState {
     required this.sort,
     this.chips,
     this.products,
+    required this.status,
   });
 
   SelectedCategoryState copyWith({
@@ -30,6 +34,7 @@ class SelectedCategoryState {
     int? page,
     ChipsUIModel? chips,
     ProductAllCategory? products,
+    Status? status,
   }) {
     return SelectedCategoryState(
       slug: slug ?? this.slug,
@@ -37,6 +42,7 @@ class SelectedCategoryState {
       page: page ?? this.page,
       chips: chips ?? this.chips,
       products: products ?? this.products,
+      status: status ?? this.status,
     );
   }
 }

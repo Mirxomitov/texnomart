@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:texnomart/utils/to_value.dart';
 
 class PriceAndAddToBasket extends StatelessWidget {
-  const PriceAndAddToBasket({super.key, required this.price, required this.onTap});
+  const PriceAndAddToBasket({super.key, required this.price, required this.onTap, required this.added});
 
   final VoidCallback onTap;
   final String price;
+  final bool added;
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +38,16 @@ class PriceAndAddToBasket extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: added ? Colors.white : Theme.of(context).primaryColor ,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.add),
+                  const Icon(Icons.shopping_cart_sharp),
                   const SizedBox(width: 8),
                   Text(
-                    "Savatchaga qo'shish",
+                    added ? "Savatchaga qo'shildi" : "Savatchaga qo'shish",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ],

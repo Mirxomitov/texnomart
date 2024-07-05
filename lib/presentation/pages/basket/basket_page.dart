@@ -31,9 +31,10 @@ class _BasketPageState extends State<BasketPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 24.0),
-                      child: Row(
+                    if (state.allPrice != 0)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: Row(
                         children: [
                           const Text("Tanlanganlarni o'chirish", style: TextStyle(fontSize: 14, color: Colors.black45)),
                           const Spacer(),
@@ -52,25 +53,33 @@ class _BasketPageState extends State<BasketPage> {
                                     Icons.check,
                                     color: Colors.black,
                                     size: 18,
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
                     const Divider(thickness: 0.6, color: Colors.black12),
-                    if (state.basketList != null) ...state.basketList!.map((e) => BasketItem(basketData: e)),
+                    if (state.basketList != null)
+                      for (int i = 0; i < state.basketList!.length; ++i)
+                        BasketItem(
+                          basketData: state.basketList![i],
+                          index: i,
+                        ),
                     const SizedBox(height: 24),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
+                    if (state.allPrice != 0)
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             width: 1,
                             color: Colors.black12,
-                          )),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -79,19 +88,19 @@ class _BasketPageState extends State<BasketPage> {
                               padding: const EdgeInsets.symmetric(vertical: 12.0),
                               child: Row(
                                 children: [
-                                  const Text("4 ta mahsulot", style: TextStyle(fontSize: 14, color: Colors.black54)),
-                                  const Spacer(),
-                                  Text("${27000000.toString().toValue()} so'm", style: const TextStyle(fontSize: 14, color: Colors.black)),
-                                ],
-                              ),
+                                    Text("${state.allCount} ta mahsulot", style: const TextStyle(fontSize: 14, color: Colors.black54)),
+                                    const Spacer(),
+                                    Text("${state.allPrice.toString().toValue()} so'm", style: const TextStyle(fontSize: 14, color: Colors.black)),
+                                  ],
+                                ),
                             ),
                             Row(
                               children: [
                                 const Text("To'lash uchun", style: TextStyle(fontSize: 18, color: Colors.black)),
                                 const Spacer(),
-                                Text("${27000000.toString().toValue()} so'm", style: const TextStyle(fontSize: 18, color: Colors.black)),
-                              ],
-                            ),
+                                  Text("${state.allPrice.toString().toValue()} so'm", style: const TextStyle(fontSize: 18, color: Colors.black)),
+                                ],
+                              ),
                             const SizedBox(
                               height: 24,
                             ),
@@ -119,9 +128,10 @@ class _BasketPageState extends State<BasketPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Container(
+                    if (state.allPrice != 0)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
@@ -146,11 +156,11 @@ class _BasketPageState extends State<BasketPage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        const Text("Muddatli to'lov ", style: TextStyle(fontSize: 14, color: Colors.black54)),
+                                        const Text("Muddatli to'lov ", style: TextStyle(fontSize: 12, color: Colors.black54)),
                                         Text(
-                                          "${((671000 * 1.36) ~/ 24).toString().toValue()} so'm dan",
-                                          style: const TextStyle(fontSize: 18, color: Colors.black),
-                                        ),
+                                            "${((state.allPrice * 1.36) ~/ 24).toString().toValue()} so'm dan",
+                                            style: const TextStyle(fontSize: 14, color: Colors.black),
+                                          ),
                                         const Text(" / 24 oy ", style: TextStyle(fontSize: 14, color: Colors.black54)),
                                       ],
                                     ),
@@ -184,7 +194,11 @@ class _BasketPageState extends State<BasketPage> {
                           ),
                         ),
                       ),
-                    ),
+                      )
+                    else
+                      const Center(
+                        // child: Text('bo\'sh'),
+                      ),
                   ],
                 ),
               ),
@@ -196,4 +210,3 @@ class _BasketPageState extends State<BasketPage> {
   }
 }
 
-final list = [1, 2, 3, 4];

@@ -4,6 +4,7 @@ import 'package:texnomart/domain/repositories/main_repository.dart';
 import '../../../data/model/chips_model.dart';
 import '../../../data/source/remote/response/product_all_category/products_all_category.dart';
 import '../../../di/di.dart';
+import '../../../utils/status.dart';
 
 part 'selected_category_event.dart';
 part 'selected_category_state.dart';

@@ -1,6 +1,21 @@
 part of 'orders_bloc.dart';
 
-@immutable
-sealed class OrdersState {}
+class OrdersState {
+  final Status status;
 
-final class OrdersInitial extends OrdersState {}
+  OrdersState({required this.status});
+
+  factory OrdersState.initial() {
+    return OrdersState(
+      status: Status.loading,
+    );
+  }
+
+  OrdersState copyWith({
+    Status? status,
+  }) {
+    return OrdersState(
+      status: status ?? this.status,
+    );
+  }
+}

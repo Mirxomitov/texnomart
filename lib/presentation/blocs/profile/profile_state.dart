@@ -1,6 +1,17 @@
 part of 'profile_bloc.dart';
 
-@immutable
-sealed class ProfileState {}
+class ProfileState {
+  final Status status;
 
-final class ProfileInitial extends ProfileState {}
+  ProfileState({required this.status});
+
+  factory ProfileState.initial() {
+    return ProfileState(status: Status.loading);
+  }
+
+  ProfileState copyWith({Status? status}) {
+    return ProfileState(
+      status: status ?? this.status,
+    );
+  }
+}
