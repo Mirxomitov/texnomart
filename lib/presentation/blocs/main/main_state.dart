@@ -11,7 +11,7 @@ class MainState {
     return MainState(
       bottomNavigationIndex: 0,
       notificationCount: 0,
-      status: Status.loading,
+      status: Status.success,
     );
   }
 

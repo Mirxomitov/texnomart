@@ -13,3 +13,7 @@ final class AddToBasket extends ProductDetailsEvent {
     required this.data,
   });
 }
+
+final class AddToFavourites extends ProductDetailsEvent {}
+
+final class RemoveFromFavourites extends ProductDetailsEvent {}

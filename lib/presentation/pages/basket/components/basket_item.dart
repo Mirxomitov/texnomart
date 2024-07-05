@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/data/model/basket_model/basket_model.dart';
-import 'package:texnomart/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:texnomart/utils/to_value.dart';
 
 import '../../../blocs/basket/basket_bloc.dart';
@@ -85,7 +84,19 @@ class _BasketItemState extends State<BasketItem> {
                   const SizedBox(height: 24),
                   Text(
                     "${widget.basketData.price.toString().toValue()} so'm",
-                    style: const TextStyle(fontSize: 18, color: Colors.black),
+                    style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      "${(widget.basketData.price / 24).toString().toValue()} so'mdan / 24 oy",
+                      style: const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(
                     height: 8,

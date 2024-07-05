@@ -10,7 +10,7 @@ class MainSearchBar extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.grey.shade300,
+        color: Colors.grey.shade200,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
       width: double.infinity,

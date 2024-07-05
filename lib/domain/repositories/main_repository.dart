@@ -15,21 +15,21 @@ abstract class MainRepository {
   static Set<BasketModel> basketData = HiveHelper.basket.values.toList().toSet();
   static Set<FavouriteModel> favouriteData = HiveHelper.favourite.values.toList().toSet();
 
-  void addToBasket(BasketModel data) {
+  static void addToBasket(BasketModel data) {
     basketData.add(data);
     HiveHelper.basket.add(data);
   }
 
-  void removeFromBasket(BasketModel data) {
+  static void removeFromBasket(BasketModel data) {
     basketData.remove(data);
     HiveHelper.deleteBasketData(data);
   }
 
-  void addToFavourite(FavouriteModel data) {
+  static void addToFavourite(FavouriteModel data) {
     HiveHelper.favourite.add(data);
   }
 
-  void removeFromFavourite(FavouriteModel data) {
+  static void removeFromFavourite(FavouriteModel data) {
     HiveHelper.deleteFavouriteData(data);
   }
 

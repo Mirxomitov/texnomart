@@ -19,9 +19,17 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   }
 
   _loadBasketData(LoadBasketData event, Emitter<BasketState> emit) {
-    final value = MainRepository.basketData;
+    final value = MainRepository.basketData.toList();
     print("bloc loaded data : $value");
-    emit(state.copyWith(basketList: value.toList(), allPrice: _calculatePrice(value.toList())));
+    emit(
+      state.copyWith(
+        basketList: value,
+        allCount: value.length,
+        status: Status.success,
+        allChecked: _checkAllChecked(value),
+        allPrice: _calculatePrice(value.toList()),
+      ),
+    );
   }
 
   _onClickCheckBox(OnClickCheckBox event, Emitter<BasketState> emit) {
@@ -71,6 +79,14 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     emit(state.copyWith(basketList: ls, allPrice: _calculatePrice(ls)));
   }
 
+  bool _checkAllChecked(List<BasketModel> value) {
+    bool allChecked = false;
+    for (final e in value) {
+      allChecked &= e.isChecked;
+    }
+    return allChecked;
+  }
+
   _decrement(Decrement event, Emitter<BasketState> emit) {
     final ls = state.basketList!;
     final data = state.basketList![event.index];
@@ -89,10 +105,14 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   _removeProduct(RemoveProduct event, Emitter<BasketState> emit) {
     print('delete');
     final ls = state.basketList!;
-    MainRepository.basketData.remove(ls[event.index]);
-    ls.removeAt(event.index);
-    HiveHelper.deleteBasketData(ls[event.index]);
+    try {
+      MainRepository.basketData.remove(ls[event.index]);
+      ls.removeAt(event.index);
+      HiveHelper.deleteBasketData(ls[event.index]);
+    } catch (e) {
+      print("basket ls: $ls");
+    }
 
-    emit(state.copyWith(basketList: ls, allPrice: _calculatePrice(ls)));
+    emit(state.copyWith(basketList: ls, allPrice: _calculatePrice(ls), allCount: ls.length, allChecked: _checkAllChecked(ls)));
   }
 }

@@ -109,7 +109,7 @@ class ItemProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset(imageUrl, width: 24, height: 24),
+        // Image.asset(imageUrl, width: 24, height: 24),
         const SizedBox(width: 4),
         Expanded(
           child: Text(

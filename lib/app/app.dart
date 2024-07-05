@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             ], child: const MainPage()),
         '/home': (context) => BlocProvider(
               create: (context) => HomeBloc(),
-              child: HomePage(),
+              child: const HomePage(),
             ),
       },
     );
