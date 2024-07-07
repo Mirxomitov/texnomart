@@ -16,4 +16,14 @@ final class RemoveFromFavorite extends FavoriteEvent {
   RemoveFromFavorite(this.data);
 }
 
-final class AddToBasket extends FavoriteEvent {}
+final class AddToBasket extends FavoriteEvent {
+  final FavouriteModel data;
+
+  AddToBasket({required this.data});
+}
+
+final class RemoveFromBasket extends FavoriteEvent {
+  final FavouriteModel data;
+
+  RemoveFromBasket({required this.data});
+}

@@ -390,6 +390,8 @@ class Converter {
   }
 
   static ChipsDataUIModel convertChipsData(ChipsData? data) {
+
+    print('converter has child: ${data?.hasChild}');
     return ChipsDataUIModel(
       parent: convertParent(data?.parent),
       categories: convertCategoriesList(data?.categories ?? []),

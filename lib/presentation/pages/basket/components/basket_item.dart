@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/data/model/basket_model/basket_model.dart';
+import 'package:texnomart/presentation/blocs/profile/profile_bloc.dart';
 import 'package:texnomart/utils/to_value.dart';
 
 import '../../../blocs/basket/basket_bloc.dart';
@@ -156,11 +157,15 @@ class _BasketItemState extends State<BasketItem> {
                             ),
                             const Spacer(),
                             IconButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (widget.basketData.isFavourite) {
                                   context.read<BasketBloc>().add(RemoveFromFavorite(index: widget.index));
+                                  Future.delayed(const Duration(seconds: 1), () {});
+                                  context.read<ProfileBloc>().add(LoadProfileData());
                                 } else {
                                   context.read<BasketBloc>().add(AddToFavorite(index: widget.index));
+                                  Future.delayed(const Duration(seconds: 1), () {});
+                                  context.read<ProfileBloc>().add(LoadProfileData());
                                 }
                               },
                               icon: Icon(

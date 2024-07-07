@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:texnomart/data/model/basket_model/basket_model.dart';
 import 'package:texnomart/domain/repositories/main_repository.dart';
 
 import '../../../data/model/chips_model.dart';
@@ -19,13 +20,15 @@ class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryS
   }
 
   _loadAllProducts(LoadAllProductEvent event, Emitter<SelectedCategoryState> emit) async {
+    emit(state.copyWith(status: Status.loading));
     final value = await _repository.getAllProducts(state.slug, '-popular', 1);
     print("products by slag: ${state.slug} value: $value");
-    emit(state.copyWith(products: value));
+    emit(state.copyWith(products: value, status: Status.success));
   }
 
   _loadChips(LoadChipsEvent event, Emitter<SelectedCategoryState> emit) async {
     final value = await _repository.getChips(state.slug);
+    print('load chips : state.slug');
     emit(state.copyWith(chips: value));
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:texnomart/presentation/blocs/favorite/favorite_bloc.dart';
+import 'package:texnomart/presentation/blocs/favorites/favorite_bloc.dart';
 import 'package:texnomart/presentation/blocs/profile/profile_bloc.dart';
 
 import '../favorites/favorites_page.dart';
@@ -10,6 +10,11 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if (ModalRoute.of(context)?.isCurrent ?? false) {
+      context.read<ProfileBloc>().add(LoadProfileData());
+    }
+
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -54,19 +59,26 @@ class ProfilePage extends StatelessWidget {
                       title: 'Aksiya',
                       imageUrl: 'assets/icons/aksiya.png',
                     ),
-                    ItemProfile(
-                      title: 'Sevimlilar',
-                      subtitle: context.read<ProfileBloc>().state.favouriteProducts.length.toString(),
-                      imageUrl: 'assets/icons/heart.png',
-                      onClick: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) => FavoriteBloc()..add(LoadFavorites()),
-                              child: const FavouritesPage(),
+                    BlocConsumer<ProfileBloc, ProfileState>(
+                      listener: (context, state) {
+
+                      },
+                      builder: (context, state) {
+                        return ItemProfile(
+                          title: 'Sevimlilar',
+                          subtitle: state.favouriteCount != 0 ? '${state.favouriteCount}' : null,
+                          imageUrl: 'assets/icons/heart.png',
+                          onClick: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => FavoriteBloc()..add(LoadFavorites()),
+                                  child: const FavouritesPage(),
                             ),
                           ),
+                        );
+                      },
                         );
                       },
                     ),

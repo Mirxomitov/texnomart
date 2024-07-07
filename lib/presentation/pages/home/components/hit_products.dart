@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:texnomart/data/model/hit_products_model.dart';
-import 'package:texnomart/data/source/local/hive/hive_helper.dart';
 
-import '../../../../data/model/basket_model/basket_model.dart';
 import 'hit_product_item.dart';
 
 class HitProducts extends StatelessWidget {
@@ -12,6 +10,10 @@ class HitProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < hitProducts.data.length; i++) {
+      hitProducts.data[i].id;
+    }
+
     return ListView.separated(
       separatorBuilder: (_, index) {
         return const SizedBox(width: 12);

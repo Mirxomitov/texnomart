@@ -10,11 +10,12 @@ import 'package:texnomart/utils/to_value.dart';
 
 import '../../../../data/model/favourite_model/favourite_model.dart';
 import '../../../../data/source/local/hive/hive_helper.dart';
+import '../../../blocs/profile/profile_bloc.dart';
 
 class HitProductItem extends StatefulWidget {
   final HitProductsModelData data;
 
-  HitProductItem({super.key, required this.data});
+  const HitProductItem({super.key, required this.data});
 
   @override
   State<HitProductItem> createState() => _HitProductItemState();
@@ -25,9 +26,10 @@ class _HitProductItemState extends State<HitProductItem> {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () async {
-        Navigator.push(
+        final productId = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => BlocProvider(
@@ -36,6 +38,12 @@ class _HitProductItemState extends State<HitProductItem> {
             ),
           ),
         );
+
+        if (!context.mounted) return;
+
+        if (productId != null && productId is int && productId == widget.data.id) {
+          setState(() {});
+        }
       },
       child: SizedBox(
         width: 156,
@@ -89,9 +97,9 @@ class _HitProductItemState extends State<HitProductItem> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print('on tap favorite');
                           if (isFavourite) {
                             HiveHelper.deleteFavouriteDataById(widget.data.id);
+                            context.read<ProfileBloc>().add(LoadProfileData());
                             setState(() {});
                           } else {
                             HiveHelper.addToFavourite(
@@ -103,6 +111,7 @@ class _HitProductItemState extends State<HitProductItem> {
                                 isInBasket: HiveHelper.hasInBasket(widget.data.id),
                               ),
                             );
+                            context.read<ProfileBloc>().add(LoadProfileData());
                             setState(() {});
                           }
                         },
@@ -122,11 +131,10 @@ class _HitProductItemState extends State<HitProductItem> {
                           borderRadius: BorderRadius.circular(12),
                           color: Colors.white.withAlpha(700),
                         ),
-                        child: Image.asset(
-                          'assets/images/scale.png',
-                          height: 18,
-                          width: 18,
+                        child: Icon(
+                          Icons.balance,
                           color: Colors.grey[800],
+                          size: 18,
                         ),
                       ),
                     ],

@@ -54,7 +54,7 @@ class CatalogItem extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (ctx) => BlocProvider(
-              create: (context) => SelectedCategoryBloc(slug: data.slug!)..add(LoadAllProductEvent()),
+              create: (context) => SelectedCategoryBloc(slug: data.slug!)..add(LoadAllEvent()),
               child: const SelectedCategory(),
             ),
           ),

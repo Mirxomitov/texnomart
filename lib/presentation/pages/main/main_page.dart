@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,6 @@ import 'package:lottie/lottie.dart';
 import 'package:texnomart/presentation/blocs/catalog/catalog_bloc.dart';
 import 'package:texnomart/presentation/blocs/home/home_bloc.dart';
 import 'package:texnomart/presentation/blocs/main/main_bloc.dart';
-import 'package:texnomart/presentation/blocs/profile/profile_bloc.dart';
 import 'package:texnomart/presentation/pages/catalog/catalog.dart';
 import 'package:texnomart/presentation/pages/home/home.dart';
 import 'package:texnomart/presentation/pages/orders/orders.dart';
@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
         context.read<BasketBloc>().add(LoadBasketData());
-        setState(() {});
+       // setState(() {});
       },
       builder: (context, state) {
         return Scaffold(
@@ -53,10 +53,7 @@ class _MainPageState extends State<MainPage> {
                 ),
                 const BasketPage(),
                     const OrdersPage(),
-                    BlocProvider(
-                      create: (context) => ProfileBloc(),
-                      child: const ProfilePage(),
-                    ),
+                    const ProfilePage(),
                   ]),
                 Status.fail => const Center(child: Text('Kutilmagan xatolik', style: TextStyle(color: Colors.red))),
                 Status.initial => const Center(),
@@ -74,29 +71,75 @@ class _MainPageState extends State<MainPage> {
             unselectedItemColor: Colors.grey,
             selectedLabelStyle: const TextStyle(fontSize: 12),
             unselectedLabelStyle: const TextStyle(fontSize: 12),
+            elevation: 0,
             items: [
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
+              BottomNavigationBarItem(
+                icon: AvatarGlow(
+                  glowColor: Theme.of(context).primaryColor,
+                  glowShape: BoxShape.circle,
+                  animate: true,
+                  repeat: false,
+                  curve: Curves.fastOutSlowIn,
+                  child: const Icon(Icons.home_outlined),
+                ),
                 label: "Bosh sahifa",
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.manage_search_outlined),
+              BottomNavigationBarItem(
+                icon: AvatarGlow(
+                  glowColor: Theme.of(context).primaryColor,
+                  glowShape: BoxShape.circle,
+                  animate: true,
+                  repeat: false,
+                  curve: Curves.fastOutSlowIn,
+                  child: const Icon(Icons.manage_search_outlined),
+                ),
                 label: "Katalog",
               ),
               BottomNavigationBarItem(
-                icon: badges.Badge(
-                  showBadge: state.notificationCount != 0,
-                  badgeContent: Text("${state.notificationCount}"),
-                  child: const Icon(Icons.shopping_cart_rounded),
+                icon: AvatarGlow(
+                  glowColor: Theme.of(context).primaryColor,
+                  glowShape: BoxShape.circle,
+                  animate: true,
+                  repeat: false,
+                  curve: Curves.fastOutSlowIn,
+                  child: badges.Badge(
+                    showBadge: state.notificationCount != 0,
+                    badgeStyle: badges.BadgeStyle(
+                      badgeColor: Theme.of(context).primaryColor,
+                    ),
+                    badgeContent: Text("${state.notificationCount}", style: const TextStyle(fontSize: 10)),
+                    child: const Icon(Icons.shopping_cart_rounded),
+                  ),
                 ),
                 label: "Savatcha",
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.add_business),
+              BottomNavigationBarItem(
+                icon: AvatarGlow(
+                  glowColor: Theme.of(context).primaryColor,
+                  glowShape: BoxShape.circle,
+                  animate: true,
+                  repeat: false,
+                  curve: Curves.fastOutSlowIn,
+                  child: AvatarGlow(
+                    glowColor: Theme.of(context).primaryColor,
+                    glowShape: BoxShape.circle,
+                    animate: true,
+                    repeat: false,
+                    curve: Curves.fastOutSlowIn,
+                    child: const Icon(Icons.add_business),
+                  ),
+                ),
                 label: "Buyurtmalar",
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
+              BottomNavigationBarItem(
+                icon: AvatarGlow(
+                  glowColor: Theme.of(context).primaryColor,
+                  glowShape: BoxShape.circle,
+                  animate: true,
+                  repeat: false,
+                  curve: Curves.fastOutSlowIn,
+                  child: const Icon(Icons.person_outline),
+                ),
                 label: "Profil",
               ),
             ],

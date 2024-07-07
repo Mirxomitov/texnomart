@@ -7,3 +7,15 @@ final class LoadChipsEvent extends SelectedCategoryEvent {}
 final class LoadAllProductEvent extends SelectedCategoryEvent {}
 
 final class LoadAllEvent extends SelectedCategoryEvent {}
+
+final class AddToBasket extends SelectedCategoryEvent {
+  final BasketModel data;
+
+  AddToBasket({required this.data});
+}
+
+final class RemoveFromBasket extends SelectedCategoryEvent {
+  final BasketModel data;
+
+  RemoveFromBasket({required this.data});
+}

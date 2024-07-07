@@ -8,6 +8,18 @@ final class AddToBasketEvent extends BasketEvent {
   AddToBasketEvent({required this.data});
 }
 
+final class DeleteFromBasketEvent extends BasketEvent {
+  final BasketModel data;
+
+  DeleteFromBasketEvent({required this.data});
+}
+
+final class DeleteFromBasketById extends BasketEvent {
+  final int id;
+
+  DeleteFromBasketById({required this.id});
+}
+
 final class LoadBasketData extends BasketEvent {}
 
 final class RemoveProduct extends BasketEvent {

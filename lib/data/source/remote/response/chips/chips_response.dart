@@ -19,6 +19,7 @@ class ChipsResponse with _$ChipsResponse {
 
 @freezed
 class ChipsData with _$ChipsData {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
   const factory ChipsData({
     Parent? parent,
     List<Categories>? categories,
@@ -31,6 +32,7 @@ class ChipsData with _$ChipsData {
 
 @freezed
 class Parent with _$Parent {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
   const factory Parent(
     int? id,
     String? name,
@@ -44,6 +46,7 @@ class Parent with _$Parent {
 
 @freezed
 class Categories with _$Categories {
+  @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
   const factory Categories(
     int? id,
     String? name,

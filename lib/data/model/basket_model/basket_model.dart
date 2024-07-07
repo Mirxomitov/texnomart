@@ -63,9 +63,23 @@ class BasketModel extends HiveObject {
       isInBasket: isInBasket,
     );
   }
-}
 
-/*
-Hiveda basket model bor. => Barcha ma'lumotlar
-Hiveda favourite model bor. => faqat id
- */
+  BasketModel copy({
+    String? productId,
+    String? name,
+    double? price,
+    String? image,
+    int? count,
+    bool? isChecked,
+    bool? isFavourite,
+  }) =>
+      BasketModel(
+        productId: productId ?? this.productId,
+        name: name ?? this.name,
+        price: price ?? this.price,
+        image: image ?? this.image,
+        count: count ?? this.count,
+        isChecked: isChecked ?? this.isChecked,
+        isFavourite: isFavourite ?? this.isFavourite,
+      );
+}

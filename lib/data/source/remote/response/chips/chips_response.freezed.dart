@@ -355,7 +355,8 @@ class __$$ChipsDataImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class _$ChipsDataImpl implements _ChipsData {
   const _$ChipsDataImpl(
       {this.parent,
@@ -574,7 +575,8 @@ class __$$ParentImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class _$ParentImpl implements _Parent {
   const _$ParentImpl(this.id, this.name, this.image, this.slug, this.hasChild);
 
@@ -777,7 +779,8 @@ class __$$CategoriesImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class _$CategoriesImpl implements _Categories {
   const _$CategoriesImpl(
       this.id, this.name, this.image, this.slug, this.hasChild);

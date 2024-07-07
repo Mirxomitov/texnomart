@@ -1,8 +1,6 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/data/source/local/hive/hive_helper.dart';
 
-import '../../../data/model/favourite_model/favourite_model.dart';
 import '../../../utils/status.dart';
 
 part 'profile_event.dart';
@@ -10,8 +8,10 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileState.initial()) {
-    on<ProfileEvent>((event, emit) {
-      // TODO: implement event handler
+    on<LoadProfileData>((event, emit) {
+      final length = HiveHelper.favourite.length;
+      print('LoadProfileData $length');
+      emit(state.copyWith(favouriteCount: length));
     });
   }
 }

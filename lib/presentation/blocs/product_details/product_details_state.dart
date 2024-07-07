@@ -50,6 +50,7 @@ class ProductDetailsState {
   }
 
   bool _checkIsFavourite(int productId) {
-    return HiveHelper.hasInBasket(productId);
+    print('check is favourite $productId');
+    return HiveHelper.hasInFavourite(productId);
   }
 }

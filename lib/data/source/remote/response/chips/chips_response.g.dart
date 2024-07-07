@@ -32,16 +32,16 @@ _$ChipsDataImpl _$$ChipsDataImplFromJson(Map<String, dynamic> json) =>
       categories: (json['categories'] as List<dynamic>?)
           ?.map((e) => Categories.fromJson(e as Map<String, dynamic>))
           .toList(),
-      hasChildImage: json['hasChildImage'] as bool?,
-      hasChild: json['hasChild'] as bool?,
+      hasChildImage: json['has_child_image'] as bool?,
+      hasChild: json['has_child'] as bool?,
     );
 
 Map<String, dynamic> _$$ChipsDataImplToJson(_$ChipsDataImpl instance) =>
     <String, dynamic>{
-      'parent': instance.parent,
-      'categories': instance.categories,
-      'hasChildImage': instance.hasChildImage,
-      'hasChild': instance.hasChild,
+      'parent': instance.parent?.toJson(),
+      'categories': instance.categories?.map((e) => e.toJson()).toList(),
+      'has_child_image': instance.hasChildImage,
+      'has_child': instance.hasChild,
     };
 
 _$ParentImpl _$$ParentImplFromJson(Map<String, dynamic> json) => _$ParentImpl(
@@ -49,7 +49,7 @@ _$ParentImpl _$$ParentImplFromJson(Map<String, dynamic> json) => _$ParentImpl(
       json['name'] as String?,
       json['image'] as String?,
       json['slug'] as String?,
-      json['hasChild'] as bool?,
+      json['has_child'] as bool?,
     );
 
 Map<String, dynamic> _$$ParentImplToJson(_$ParentImpl instance) =>
@@ -58,7 +58,7 @@ Map<String, dynamic> _$$ParentImplToJson(_$ParentImpl instance) =>
       'name': instance.name,
       'image': instance.image,
       'slug': instance.slug,
-      'hasChild': instance.hasChild,
+      'has_child': instance.hasChild,
     };
 
 _$CategoriesImpl _$$CategoriesImplFromJson(Map<String, dynamic> json) =>
@@ -67,7 +67,7 @@ _$CategoriesImpl _$$CategoriesImplFromJson(Map<String, dynamic> json) =>
       json['name'] as String?,
       json['image'] as String?,
       json['slug'] as String?,
-      json['hasChild'] as bool?,
+      json['has_child'] as bool?,
     );
 
 Map<String, dynamic> _$$CategoriesImplToJson(_$CategoriesImpl instance) =>
@@ -76,5 +76,5 @@ Map<String, dynamic> _$$CategoriesImplToJson(_$CategoriesImpl instance) =>
       'name': instance.name,
       'image': instance.image,
       'slug': instance.slug,
-      'hasChild': instance.hasChild,
+      'has_child': instance.hasChild,
     };

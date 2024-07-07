@@ -13,23 +13,52 @@ import '../../data/source/remote/response/product_all_category/products_all_cate
 
 abstract class MainRepository {
   static void addToBasket(BasketModel data) {
+    print('addToBasket');
     HiveHelper.basket.add(data);
   }
 
   static void removeFromBasket(BasketModel data) {
+    print('removeFromBasket');
     HiveHelper.deleteBasketData(data);
   }
 
+  static void removeFavoriteFromBasket(FavouriteModel data) {
+    print('removeFavoriteFromBasket');
+    final product = HiveHelper.basket.values.firstWhere((element) => element.productId == data.productId.toString());
+    HiveHelper.deleteBasketData(product);
+  }
+
   static void addToFavourite(FavouriteModel data) {
+    print('addToFavourite');
     HiveHelper.addToFavourite(data);
   }
 
+  static List<FavouriteModel> loadFavourites() {
+    final basket = HiveHelper.basket.values.toList();
+    final favourite = HiveHelper.favourite.values.toList();
+
+    print("loadFavourites basket data: $basket");
+    print("loadFavourites favourite: $favourite");
+    final basketSet = basket.map((e) => e.productId).toSet();
+
+    return favourite.map((e) => e.copy(isInBasket: basketSet.contains(e.productId.toString()))).toList();
+  }
+
   static void removeFromFavourite(FavouriteModel data) {
+    print('removeFromFavourite');
     HiveHelper.deleteFavouriteData(data);
   }
 
-  static List<FavouriteModel> loadFavourites() {
-    return HiveHelper.favourite.values.toList();
+  static void addToBasketById(int productId) {
+    print('addToBasketById');
+    final product = HiveHelper.favourite.values.firstWhere((element) => element.productId == productId);
+    HiveHelper.basket.add(FavouriteModel.toBasketModel(product));
+  }
+
+  static void removeFromBasketById(int productId) {
+    print('removeFromBasketById');
+    final product = HiveHelper.basket.values.firstWhere((element) => element.productId == productId.toString());
+    HiveHelper.deleteBasketData(product);
   }
 
   Future<SliderModel> getSliders();

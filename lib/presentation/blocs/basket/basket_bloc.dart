@@ -17,11 +17,12 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     on<RemoveProduct>((event, emit) => _removeProduct(event, emit));
     on<AddToFavorite>((event, emit) => _addToFavourite(event, emit));
     on<RemoveFromFavorite>((event, emit) => _removeFromFavourite(event, emit));
+    on<DeleteFromBasketById>((event, emit) => _deleteFromBasketById(event, emit));
   }
 
   _loadBasketData(LoadBasketData event, Emitter<BasketState> emit) {
-    final ls = HiveHelper.basket.values.toList();
-    print("bloc loaded data : $ls");
+    final ls = HiveHelper.getBasketList();
+    print("bloc loaded basket data : $ls");
     emit(
       state.copyWith(
         basketList: ls,
@@ -129,5 +130,17 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     state.basketList![event.index].isFavourite = false;
     HiveHelper.deleteFavouriteData(state.basketList![event.index].toFavouriteModel(false));
     emit(state.copyWith(basketList: state.basketList));
+  }
+
+  _deleteFromBasketById(DeleteFromBasketById event, Emitter<BasketState> emit) {
+    final ls = state.basketList!;
+    HiveHelper.deleteBasketDataById(event.id);
+    ls.removeWhere((element) => element.productId == event.id.toString());
+    emit(state.copyWith(
+      basketList: ls,
+      allPrice: _calculatePrice(ls),
+      allCount: ls.length,
+      allChecked: _checkAllChecked(ls),
+    ));
   }
 }

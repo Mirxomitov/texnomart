@@ -30,9 +30,13 @@ class HiveHelper {
     return true;
   }
 
+  // here we are adding the data to the basket
   static void addToFavourite(FavouriteModel data) {
     for (int i = 0; i < favourite.values.length; ++i) {
-      if (data.productId == favourite.values.elementAt(i).productId) return;
+      if (data.productId == favourite.values.elementAt(i).productId) {
+        print('already in favourite');
+        return;
+      }
     }
 
     favourite.add(data);
@@ -41,16 +45,26 @@ class HiveHelper {
 
   static bool hasInBasket(int productId) {
     for (var value in basket.values) {
-      if (value.productId == '$productId') return true;
+      if (value.productId == '$productId') {
+        print('has not in basket $productId');
+        return true;
+      }
     }
+
+    print('has not in basket $productId');
 
     return false;
   }
 
   static bool hasInFavourite(int productId) {
     for (var value in favourite.values) {
-      if (value.productId == productId) return true;
+      if (value.productId == productId) {
+        print('has in favourite $productId');
+        return true;
+      }
     }
+
+    print('has not in favourite $productId');
 
     return false;
   }
@@ -59,5 +73,17 @@ class HiveHelper {
     final value = favourite.values.firstWhere((element) => element.productId == id);
     favourite.delete(value.key);
     print('deleteFavouriteDataById $id name: ${value.name}');
+  }
+
+  static void deleteBasketDataById(int id) {
+    final value = basket.values.firstWhere((element) => element.productId == id.toString());
+    basket.delete(value.key);
+    print('deleteBasketDataById $id name: ${value.name}');
+  }
+
+  static List<BasketModel> getBasketList() {
+    final favoriteSet = favourite.values.map((e) => e.productId.toString()).toSet();
+
+    return basket.values.toList().map((e) => e.copy(isFavourite: favoriteSet.contains(e.productId))).toList();
   }
 }

@@ -19,7 +19,7 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
     on<AddToFavourites>((event, emit) {
       final favourite = FavouriteModel(
         productId: state.productData!.data.data.id,
-        image: state.productData!.data.data.smallImages[1],
+        image: state.productData!.data.data.largeImages[0],
         name: state.productData!.data.data.name,
         price: state.productData!.data.data.salePrice.toDouble(),
         isInBasket: state.inBasket,
@@ -29,13 +29,12 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
       emit(state.copyWith(isFavourite: true));
 
       print("is favourite: $favourite");
-
       print('all favourites: ${MainRepository.loadFavourites()}');
     });
     on<RemoveFromFavourites>((event, emit) {
       final favourite = FavouriteModel(
         productId: state.productData!.data.data.id,
-        image: state.productData!.data.data.smallImages[1],
+        image: state.productData!.data.data.largeImages[0],
         name: state.productData!.data.data.name,
         price: state.productData!.data.data.salePrice.toDouble(),
         isInBasket: state.inBasket,
@@ -58,9 +57,11 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
   }
 
   _loadDetails(LoadProductDetailsEvent event, Emitter<ProductDetailsState> emit) async {
+    bool isFavourite = state._checkIsFavourite(state.productId);
+    emit(state.copyWith(isFavourite: isFavourite));
+
     final res = await _repository.getProduct("${state.productId}");
     bool addedToBasket = state._checkHasInBasket(state.productId);
-    bool isFavourite = state._checkIsFavourite(state.productId);
 
     emit(state.copyWith(productData: res, inBasket: addedToBasket, isFavourite: isFavourite, status: Status.success));
   }

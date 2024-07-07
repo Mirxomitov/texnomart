@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/presentation/blocs/basket/basket_bloc.dart';
 import 'package:texnomart/presentation/blocs/home/home_bloc.dart';
+import 'package:texnomart/presentation/blocs/profile/profile_bloc.dart';
 import 'package:texnomart/presentation/pages/home/home.dart';
 
 import '../presentation/blocs/main/main_bloc.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => MainBloc()),
         BlocProvider(create: (_) => BasketBloc()),
+        BlocProvider(create: (_) => ProfileBloc()),
       ],
       child: MaterialApp(
         title: 'Texnomart',
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
           scaffoldBackgroundColor: const Color(0xFFF3F1F1),
+          splashColor: Colors.transparent,
+
         ),
         initialRoute: '/',
         routes: {
