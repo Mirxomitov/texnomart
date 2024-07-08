@@ -17,6 +17,8 @@ class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryS
     on<LoadAllProductEvent>((event, emit) => _loadAllProducts(event, emit));
     on<LoadChipsEvent>((event, emit) => _loadChips(event, emit));
     on<LoadAllEvent>((event, emit) => _loadAll(event, emit));
+    on<SelectChips>((event, emit) => _selectChips(event, emit));
+    on<RemoveChips>((event, emit) => _removeChips(event, emit));
   }
 
   _loadAllProducts(LoadAllProductEvent event, Emitter<SelectedCategoryState> emit) async {
@@ -35,5 +37,14 @@ class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryS
   _loadAll(LoadAllEvent event, Emitter<SelectedCategoryState> emit) {
     add(LoadChipsEvent());
     add(LoadAllProductEvent());
+  }
+
+  _selectChips(SelectChips event, Emitter<SelectedCategoryState> emit) {
+    emit(state.copyWith(selectedChips: event.chips));
+  }
+
+  _removeChips(RemoveChips event, Emitter<SelectedCategoryState> emit) {
+    state.selectedChips = null;
+    emit(state);
   }
 }

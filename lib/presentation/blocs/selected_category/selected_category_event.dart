@@ -19,3 +19,13 @@ final class RemoveFromBasket extends SelectedCategoryEvent {
 
   RemoveFromBasket({required this.data});
 }
+
+final class SelectChips extends SelectedCategoryEvent {
+  final String chips;
+
+  SelectChips({required this.chips});
+}
+
+final class RemoveChips extends SelectedCategoryEvent {
+
+}

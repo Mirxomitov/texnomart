@@ -1,4 +1,3 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,72 +73,30 @@ class _MainPageState extends State<MainPage> {
             elevation: 0,
             items: [
               BottomNavigationBarItem(
-                icon: AvatarGlow(
-                  glowColor: Theme.of(context).primaryColor,
-                  glowShape: BoxShape.circle,
-                  animate: true,
-                  repeat: false,
-                  curve: Curves.fastOutSlowIn,
-                  child: const Icon(Icons.home_outlined),
-                ),
+                icon: const Icon(Icons.home_outlined),
                 label: "Bosh sahifa",
               ),
               BottomNavigationBarItem(
-                icon: AvatarGlow(
-                  glowColor: Theme.of(context).primaryColor,
-                  glowShape: BoxShape.circle,
-                  animate: true,
-                  repeat: false,
-                  curve: Curves.fastOutSlowIn,
-                  child: const Icon(Icons.manage_search_outlined),
-                ),
+                icon: const Icon(Icons.manage_search_outlined),
                 label: "Katalog",
               ),
               BottomNavigationBarItem(
-                icon: AvatarGlow(
-                  glowColor: Theme.of(context).primaryColor,
-                  glowShape: BoxShape.circle,
-                  animate: true,
-                  repeat: false,
-                  curve: Curves.fastOutSlowIn,
-                  child: badges.Badge(
-                    showBadge: state.notificationCount != 0,
+                icon: badges.Badge(
+                  showBadge: state.notificationCount != 0,
                     badgeStyle: badges.BadgeStyle(
                       badgeColor: Theme.of(context).primaryColor,
                     ),
                     badgeContent: Text("${state.notificationCount}", style: const TextStyle(fontSize: 10)),
                     child: const Icon(Icons.shopping_cart_rounded),
                   ),
-                ),
                 label: "Savatcha",
               ),
               BottomNavigationBarItem(
-                icon: AvatarGlow(
-                  glowColor: Theme.of(context).primaryColor,
-                  glowShape: BoxShape.circle,
-                  animate: true,
-                  repeat: false,
-                  curve: Curves.fastOutSlowIn,
-                  child: AvatarGlow(
-                    glowColor: Theme.of(context).primaryColor,
-                    glowShape: BoxShape.circle,
-                    animate: true,
-                    repeat: false,
-                    curve: Curves.fastOutSlowIn,
-                    child: const Icon(Icons.add_business),
-                  ),
-                ),
+                icon: const Icon(Icons.add_business),
                 label: "Buyurtmalar",
               ),
               BottomNavigationBarItem(
-                icon: AvatarGlow(
-                  glowColor: Theme.of(context).primaryColor,
-                  glowShape: BoxShape.circle,
-                  animate: true,
-                  repeat: false,
-                  curve: Curves.fastOutSlowIn,
-                  child: const Icon(Icons.person_outline),
-                ),
+                icon: const Icon(Icons.person_outline),
                 label: "Profil",
               ),
             ],

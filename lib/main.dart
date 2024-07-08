@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:texnomart/data/model/basket_model/basket_model.dart';
-import 'package:texnomart/data/model/favourite_model/favourite_model.dart';
-import 'package:texnomart/di/di.dart';
 
 import 'app/app.dart';
+import 'data/model/basket_model/basket_model.dart';
+import 'data/model/favourite_model/favourite_model.dart';
 import 'data/source/local/hive/hive_helper.dart';
+import 'di/di.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

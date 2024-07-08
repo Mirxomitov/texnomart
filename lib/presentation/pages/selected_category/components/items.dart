@@ -123,8 +123,9 @@ class _ProductItemState extends State<ProductItem> {
                               ),
                             ),
                           ),
-                        Positioned(
-                          left: 10,
+                        if (widget.data.saleMonths != null && widget.data.saleMonths!.isNotEmpty && widget.data.saleMonths![0].image != null)
+                          Positioned(
+                            left: 10,
                           bottom: 10,
                           child: SvgPicture.network(widget.data.saleMonths![0].image!),
                         ),

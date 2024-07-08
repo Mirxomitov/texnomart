@@ -39,51 +39,159 @@ class ChipsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print(" --- has child ${category.hasChild}");
-        if (category.hasChild) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (ctx) => BlocProvider(
-                create: (context) => SelectedCategoryBloc(slug: category.slug)..add(LoadAllEvent()),
-                child: const SelectedCategory(),
-              ),
-            ),
-          );
-        } else {
-          // TODO filter
-        }
-      },
-      child: Builder(builder: (context) {
-        if (showImage) {
-          return Container(
+    return BlocBuilder<SelectedCategoryBloc, SelectedCategoryState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () {
+            if (category.hasChild) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => BlocProvider(
+                    create: (context) => SelectedCategoryBloc(slug: category.slug)..add(LoadAllEvent()),
+                    child: const SelectedCategory(),
+                  ),
+                ),
+              );
+            } else if (state.selectedChips == null || state.selectedChips.toString() != category.name) {
+              context.read<SelectedCategoryBloc>().add(SelectChips(chips: category.name));
+            }
+          },
+          child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: state.selectedChips != null && state.selectedChips == category.name
+                  ? Theme.of(context).primaryColor.withAlpha(100)
+                  : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               children: [
-                CachedNetworkImage(imageUrl: category.image, height: 36, width: 56, fit: BoxFit.contain),
-                const SizedBox(width: 8),
-                Text(category.name, style: Theme.of(context).textTheme.bodyMedium),
+                if (showImage) CachedNetworkImage(imageUrl: category.image, height: 36, width: 56, fit: BoxFit.contain),
                 const SizedBox(width: 12),
+                Text(
+                  category.name,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(width: 12),
+                if (state.selectedChips != null && state.selectedChips == category.name)
+                  GestureDetector(
+                    onTap: () {
+                      print('onclick');
+                      context.read<SelectedCategoryBloc>().add(RemoveChips());
+                    },
+                    child: Container(
+                      height: 24,
+                      width: 24,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.close, color: Colors.black, size: 12),
+                    ),
+                  )
               ],
             ),
-          );
-        }
-
-        return Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(8),
           ),
-          child: Text(category.name, style: Theme.of(context).textTheme.bodyMedium),
         );
-      }),
+      },
     );
   }
+
+/*  Widget _buildCategoryWidgetWithImage(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap(context),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            CachedNetworkImage(imageUrl: category.image, height: 36, width: 56, fit: BoxFit.contain),
+            const SizedBox(width: 8),
+            Text(category.name, style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(width: 12),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryWidgetWithoutImage(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(category.name, style: Theme.of(context).textTheme.bodyMedium),
+    );
+  }
+
+  Widget _buildSelectedCategoryWidget(BuildContext context, String chips) {
+    return GestureDetector(
+      onTap: selectChips(context, chips),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withAlpha(100),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Text(category.name, style: Theme.of(context).textTheme.bodyMedium),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.close, color: Colors.black),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDefaultCategoryWidget(BuildContext context, String chips) {
+    return GestureDetector(
+      onTap: selectChips(context, chips),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Text(category.name, style: Theme.of(context).textTheme.bodyMedium),
+          ],
+        ),
+      ),
+    );
+  }
+
+  onTap(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => BlocProvider(
+          create: (context) => SelectedCategoryBloc(slug: category.slug)..add(LoadAllEvent()),
+          child: const SelectedCategory(),
+        ),
+      ),
+    );
+  }
+
+  selectChips(BuildContext context, String chips) {
+    if (context.read<SelectedCategoryBloc>().state.selectedChips == null) {
+      context.read<SelectedCategoryBloc>().add(SelectChips(chips: chips));
+    } else {
+      context.read<SelectedCategoryBloc>().add(RemoveChips());
+    }
+  }*/
 }
