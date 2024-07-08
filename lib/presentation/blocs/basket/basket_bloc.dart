@@ -52,7 +52,8 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
     for (int i = 0; i < ls.length; ++i) {
       ls[i].isChecked = changed;
-      ls[i].save();
+      HiveHelper.changeAllChecked(ls, changed);
+      //ls[i].save();
     }
 
     emit(state.copyWith(basketList: ls, allChecked: changed, allCount: ls.length, allPrice: _calculatePrice(ls)));
@@ -72,9 +73,9 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     final ls = state.basketList!;
     final data = state.basketList![event.index];
 
-    if (data.count < 10) {
+    if (data.count < 9) {
       data.count++;
-      data.save();
+      HiveHelper.incrementCount(data);
     }
 
     print(data.count);
@@ -97,7 +98,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
     if (data.count > 1) {
       data.count--;
-      data.save();
+      HiveHelper.decrementCount(data);
     }
 
     print(data.count);

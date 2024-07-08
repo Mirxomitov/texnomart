@@ -1,17 +1,16 @@
 import 'package:badges/badges.dart' as badges;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
-import 'package:texnomart/presentation/blocs/catalog/catalog_bloc.dart';
-import 'package:texnomart/presentation/blocs/home/home_bloc.dart';
 import 'package:texnomart/presentation/blocs/main/main_bloc.dart';
 import 'package:texnomart/presentation/pages/catalog/catalog.dart';
 import 'package:texnomart/presentation/pages/home/home.dart';
 import 'package:texnomart/presentation/pages/orders/orders.dart';
 import 'package:texnomart/presentation/pages/profile/profile.dart';
 
-import '../../../utils/status.dart';
 import '../../blocs/basket/basket_bloc.dart';
+import '../../blocs/catalog/catalog_bloc.dart';
+import '../../blocs/home/home_bloc.dart';
 import '../basket/basket_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -22,20 +21,110 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _controller = CupertinoTabController();
+  // int index = 0;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainBloc, MainState>(
       listener: (context, state) {
-        context.read<BasketBloc>().add(LoadBasketData());
-       // setState(() {});
       },
       builder: (context, state) {
-        return Scaffold(
+        print('index changed _controller.index: ${_controller.index} state.bottomNavigationIndex: ${state.bottomNavigationIndex}');
+        return CupertinoTabScaffold(
+          tabBar: CupertinoTabBar(
+            onTap: (int index) {
+              // this.index = index;
+              _controller.index = index;
+            },
+            backgroundColor: Colors.white,
+            activeColor: Colors.black,
+            inactiveColor: Colors.black45,
+            items: <BottomNavigationBarItem>[
+              const BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_outlined,
+                  size: 24,
+                ),
+                label: 'Bosh sahifa',
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.manage_search_rounded,
+                  size: 24,
+                ),
+                label: 'Katalog',
+              ),
+              BottomNavigationBarItem(
+                icon: badges.Badge(
+                  showBadge: state.notificationCount != 0,
+                  badgeContent: Text("${state.notificationCount}"),
+                  badgeStyle: const badges.BadgeStyle(badgeColor: Color(0xfffdc202)),
+                  child: const Icon(
+                    Icons.shopping_cart_rounded,
+                    size: 24,
+                  ),
+                ),
+                label: "Savatcha",
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.outdoor_grill,
+                  size: 24,
+                ),
+                label: 'Buyurmalar',
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_outline,
+                  size: 24,
+                ),
+                label: 'Profil',
+              ),
+            ],
+          ),
+          controller: _controller,
+          tabBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(
+                      child: BlocProvider(
+                    create: (context) => HomeBloc()..add(LoadAllFromApi()),
+                    child: HomePage(),
+                  ));
+                });
+              case 1:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(
+                    child: BlocProvider(
+                      create: (context) => CatalogBloc()..add(GetCatalogMenuEvent()),
+                      child: const CatalogPage(),
+                    ),
+                  );
+                });
+
+              case 2:
+                return CupertinoTabView(builder: (context) {
+                  return CupertinoPageScaffold(child: BasketPage());
+                });
+
+              case 3:
+                return CupertinoTabView(builder: (context) {
+                  return const CupertinoPageScaffold(child: OrdersPage());
+                });
+
+              case 4:
+                return CupertinoTabView(builder: (context) {
+                  return const CupertinoPageScaffold(child: ProfilePage());
+                });
+              default:
+                return const CupertinoTabView();
+            }
+          },
+        );
+
+        /* return Scaffold(
           backgroundColor: Colors.white,
           body: Builder(
             builder: (context) {
@@ -101,7 +190,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
           ),
-        );
+        );*/
       },
     );
   }

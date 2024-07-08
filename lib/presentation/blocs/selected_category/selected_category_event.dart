@@ -26,6 +26,10 @@ final class SelectChips extends SelectedCategoryEvent {
   SelectChips({required this.chips});
 }
 
-final class RemoveChips extends SelectedCategoryEvent {
+final class RemoveChips extends SelectedCategoryEvent {}
 
+final class ChangeSort extends SelectedCategoryEvent {
+  final String sort;
+
+  ChangeSort({required this.sort});
 }

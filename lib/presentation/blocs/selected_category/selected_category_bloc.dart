@@ -10,6 +10,8 @@ import '../../../utils/status.dart';
 part 'selected_category_event.dart';
 part 'selected_category_state.dart';
 
+
+
 class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryState> {
   final _repository = di<MainRepository>();
 
@@ -19,11 +21,12 @@ class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryS
     on<LoadAllEvent>((event, emit) => _loadAll(event, emit));
     on<SelectChips>((event, emit) => _selectChips(event, emit));
     on<RemoveChips>((event, emit) => _removeChips(event, emit));
+    on<ChangeSort>((event, emit) => _changeSort(event, emit));
   }
 
   _loadAllProducts(LoadAllProductEvent event, Emitter<SelectedCategoryState> emit) async {
     emit(state.copyWith(status: Status.loading));
-    final value = await _repository.getAllProducts(state.slug, '-popular', 1);
+    final value = await _repository.getAllProducts(state.slug, state.sort, 1);
     print("products by slag: ${state.slug} value: $value");
     emit(state.copyWith(products: value, status: Status.success));
   }
@@ -46,5 +49,10 @@ class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryS
   _removeChips(RemoveChips event, Emitter<SelectedCategoryState> emit) {
     state.selectedChips = null;
     emit(state);
+  }
+
+  _changeSort(ChangeSort event, Emitter<SelectedCategoryState> emit) {
+    emit(state.copyWith(sort: event.sort));
+    add(LoadAllProductEvent());
   }
 }

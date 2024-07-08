@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => MainBloc()),
-        BlocProvider(create: (_) => BasketBloc()),
-        BlocProvider(create: (_) => ProfileBloc()),
+        BlocProvider(create: (_) => BasketBloc()..add(LoadBasketData())),
+        BlocProvider(create: (_) => ProfileBloc()..add(LoadProfileData())),
       ],
       child: MaterialApp(
         title: 'Texnomart',

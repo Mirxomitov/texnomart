@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:texnomart/presentation/blocs/basket/basket_bloc.dart';
+import 'package:texnomart/presentation/blocs/main/main_bloc.dart';
+import 'package:texnomart/presentation/blocs/profile/profile_bloc.dart';
 import 'package:texnomart/utils/to_value.dart';
 
 import '../../../../data/model/basket_model/basket_model.dart';
@@ -138,6 +140,8 @@ class _ProductItemState extends State<ProductItem> {
                                 onTap: () {
                                   if (isFavourite) {
                                     HiveHelper.deleteFavouriteDataById(widget.data.id!);
+                                    context.read<ProfileBloc>().add(LoadProfileData());
+
                                     setState(() {});
                                   } else {
                                     HiveHelper.addToFavourite(
@@ -149,6 +153,8 @@ class _ProductItemState extends State<ProductItem> {
                                         isInBasket: HiveHelper.hasInBasket(widget.data.id!),
                                       ),
                                     );
+                                    context.read<ProfileBloc>().add(LoadProfileData());
+
                                     setState(() {});
                                   }
                                 },
@@ -235,6 +241,8 @@ class _ProductItemState extends State<ProductItem> {
                                   onTap: () {
                                     if (isInBasket) {
                                       HiveHelper.deleteBasketDataById(widget.data.id!);
+                                      context.read<BasketBloc>().add(LoadBasketData());
+                                      context.read<MainBloc>().add(LoadAllBasketData());
                                     } else {
                                       MainRepository.addToBasket(
                                         BasketModel(
@@ -247,6 +255,9 @@ class _ProductItemState extends State<ProductItem> {
                                           count: 1,
                                         ),
                                       );
+
+                                      context.read<BasketBloc>().add(LoadBasketData());
+                                      context.read<MainBloc>().add(LoadAllBasketData());
                                     }
 
                                     setState(() {});

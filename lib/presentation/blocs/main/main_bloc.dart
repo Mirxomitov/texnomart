@@ -15,6 +15,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 
   _changeBottomNavigation(ChangeBottomNavigation event, Emitter<MainState> emit) {
+    print('change bottom navigation is worked');
     emit(state.copyWith(notificationCount: HiveHelper.basket.values.toList().length));
     emit(state.copyWith(bottomNavigationIndex: event.chosenIndex));
   }

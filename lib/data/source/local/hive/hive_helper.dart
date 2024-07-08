@@ -59,13 +59,12 @@ class HiveHelper {
   static bool hasInFavourite(int productId) {
     for (var value in favourite.values) {
       if (value.productId == productId) {
-        print('has in favourite $productId');
+        // print('has in favourite $productId');
         return true;
       }
     }
 
-    print('has not in favourite $productId');
-
+    // print('has not in favourite $productId');
     return false;
   }
 
@@ -85,5 +84,39 @@ class HiveHelper {
     final favoriteSet = favourite.values.map((e) => e.productId.toString()).toSet();
 
     return basket.values.toList().map((e) => e.copy(isFavourite: favoriteSet.contains(e.productId))).toList();
+  }
+
+  static incrementCount(BasketModel data) {
+    final ls = basket.values.toList();
+    for (int i = 0; i < ls.length; ++i) {
+      if (ls[i].key == data.key) {
+        data.count += 1;
+        data.save();
+        print('saved data count: ${data.count}');
+      } else {
+        print('data != ${ls[i]}');
+      }
+    }
+  }
+
+  static decrementCount(BasketModel data) {
+    final ls = basket.values.toList();
+    for (int i = 0; i < ls.length; ++i) {
+      if (ls[i].key == data.key) {
+        data.count -= 1;
+        data.save();
+        print('saved data count: ${data.count}');
+      }
+    }
+  }
+
+  static void changeAllChecked(List<BasketModel> ls, bool checked) {
+    final ls = basket.values.toList();
+    for (int i = 0; i < ls.length; ++i) {
+      ls[i].isChecked = checked;
+      ls[i].save();
+    }
+
+    print('checked : $checked, ls: $ls');
   }
 }
