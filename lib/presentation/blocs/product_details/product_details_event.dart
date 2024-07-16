@@ -17,3 +17,5 @@ final class AddToBasket extends ProductDetailsEvent {
 final class AddToFavourites extends ProductDetailsEvent {}
 
 final class RemoveFromFavourites extends ProductDetailsEvent {}
+
+final class CheckInBasket extends ProductDetailsEvent {}

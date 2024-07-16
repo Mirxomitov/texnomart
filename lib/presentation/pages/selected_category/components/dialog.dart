@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../utils/commons.dart';
+
 class OrderProductsDialog extends StatelessWidget {
   const OrderProductsDialog({super.key, required this.orderType, required this.onTap});
 
@@ -53,11 +55,5 @@ class OrderProductsDialog extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String getOrderName(String order) {
-    if (order == '-popular') return "Ommabopligi";
-    if (order == '-price') return "Nisbatan arzonligi";
-    return "Nisbatan qimmatligi";
   }
 }

@@ -10,8 +10,6 @@ import '../../../utils/status.dart';
 part 'selected_category_event.dart';
 part 'selected_category_state.dart';
 
-
-
 class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryState> {
   final _repository = di<MainRepository>();
 
@@ -44,6 +42,7 @@ class SelectedCategoryBloc extends Bloc<SelectedCategoryEvent, SelectedCategoryS
 
   _selectChips(SelectChips event, Emitter<SelectedCategoryState> emit) {
     emit(state.copyWith(selectedChips: event.chips));
+    add(LoadAllProductEvent());
   }
 
   _removeChips(RemoveChips event, Emitter<SelectedCategoryState> emit) {

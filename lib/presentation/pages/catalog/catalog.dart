@@ -2,12 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:texnomart/presentation/blocs/catalog/catalog_bloc.dart';
 import 'package:texnomart/presentation/blocs/selected_category/selected_category_bloc.dart';
 import 'package:texnomart/presentation/pages/home/components/main_search_bar.dart';
 import 'package:texnomart/presentation/pages/selected_category/selected_category.dart';
 
 import '../../../data/source/remote/response/catalog_menu/catalog_menu.dart';
+import '../../../utils/status.dart';
 
 class CatalogPage extends StatelessWidget {
   const CatalogPage({super.key});
@@ -17,23 +19,36 @@ class CatalogPage extends StatelessWidget {
     return SafeArea(
       child: BlocBuilder<CatalogBloc, CatalogState>(
         builder: (context, state) {
-          return Column(
-            children: [
-              const MainSearchBar(),
-              if (state.catalogMenuData != null && state.catalogMenuData?.data != null && state.catalogMenuData?.data?.data != null)
-                Expanded(
-                  child: ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    separatorBuilder: (_, __) => const SizedBox(height: 8),
-                    itemBuilder: (_, index) {
-                      return CatalogItem(
-                        data: state.catalogMenuData!.data!.data![index],
-                      );
-                    },
-                    itemCount: state.catalogMenuData!.data!.data!.length,
+          if (state.status == Status.loading)
+            return Container(
+              color: Colors.white,
+              alignment: Alignment.center,
+              child: Lottie.asset(
+                "assets/lottie/loading.json",
+                width: 34,
+                height: 34,
+              ),
+            );
+
+          return Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                const MainSearchBar(),
+                if (state.catalogMenuData != null && state.catalogMenuData?.data != null && state.catalogMenuData?.data?.data != null)
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (_, index) {
+                        return CatalogItem(
+                          data: state.catalogMenuData!.data!.data![index],
+                        );
+                      },
+                      itemCount: state.catalogMenuData!.data!.data!.length,
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -61,7 +76,8 @@ class CatalogItem extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.all(12),
+        color: Colors.white,
+        padding: const EdgeInsets.all(16),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

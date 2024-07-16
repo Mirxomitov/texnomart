@@ -54,6 +54,11 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
       }
       emit(state.copyWith(inBasket: event.inBasket));
     });
+
+    on<CheckInBasket>((event, emit) {
+      bool addedToBasket = state._checkHasInBasket(state.productId);
+      emit(state.copyWith(inBasket: addedToBasket));
+    });
   }
 
   _loadDetails(LoadProductDetailsEvent event, Emitter<ProductDetailsState> emit) async {

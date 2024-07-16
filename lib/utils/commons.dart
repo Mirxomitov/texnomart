@@ -10,3 +10,8 @@ const compare_scg = 'assets/svgs/compare.svg';
 const favorite_svg = 'assets/svgs/favorite.svg';
 const un_favorite_img = 'assets/images/heart.png';
 
+String getOrderName(String order) {
+  if (order == '-popular') return "Ommabopligi";
+  if (order == 'price') return "Nisbatan arzonligi";
+  return "Nisbatan qimmatligi";
+}

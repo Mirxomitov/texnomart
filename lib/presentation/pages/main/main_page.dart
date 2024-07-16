@@ -2,13 +2,13 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:texnomart/presentation/blocs/main/main_bloc.dart';
 import 'package:texnomart/presentation/pages/catalog/catalog.dart';
 import 'package:texnomart/presentation/pages/home/home.dart';
 import 'package:texnomart/presentation/pages/orders/orders.dart';
 import 'package:texnomart/presentation/pages/profile/profile.dart';
 
-import '../../blocs/basket/basket_bloc.dart';
 import '../../blocs/catalog/catalog_bloc.dart';
 import '../../blocs/home/home_bloc.dart';
 import '../basket/basket_page.dart';
@@ -21,31 +21,23 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final _controller = CupertinoTabController();
-  // int index = 0;
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainBloc, MainState>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        print('index changed _controller.index: ${_controller.index} state.bottomNavigationIndex: ${state.bottomNavigationIndex}');
+        print('builder: index changed state.controller.index: ${state.controller.index}');
         return CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
             onTap: (int index) {
-              // this.index = index;
-              _controller.index = index;
+              context.read<MainBloc>().add(ChangeBottomNavigation(chosenIndex: index));
             },
             backgroundColor: Colors.white,
             activeColor: Colors.black,
             inactiveColor: Colors.black45,
             items: <BottomNavigationBarItem>[
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_outlined,
-                  size: 24,
-                ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/svgs/home_icon.svg', height: 24, width: 24, color: state.controller.index == 0 ? Colors.black :Colors.grey),
                 label: 'Bosh sahifa',
               ),
               const BottomNavigationBarItem(
@@ -60,30 +52,21 @@ class _MainPageState extends State<MainPage> {
                   showBadge: state.notificationCount != 0,
                   badgeContent: Text("${state.notificationCount}"),
                   badgeStyle: const badges.BadgeStyle(badgeColor: Color(0xfffdc202)),
-                  child: const Icon(
-                    Icons.shopping_cart_rounded,
-                    size: 24,
-                  ),
+                  child: SvgPicture.asset('assets/svgs/icon_basket.svg', height: 24, width: 24, color: state.controller.index == 2 ? Colors.black :Colors.grey),
                 ),
                 label: "Savatcha",
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.outdoor_grill,
-                  size: 24,
-                ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/svgs/order_icon.svg', height: 24, width: 24, color: state.controller.index == 3 ? Colors.black :Colors.grey),
                 label: 'Buyurmalar',
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person_outline,
-                  size: 24,
-                ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/svgs/profile_icon.svg', height: 24, width: 24, color: state.controller.index == 4 ? Colors.black :Colors.grey),
                 label: 'Profil',
               ),
             ],
           ),
-          controller: _controller,
+          controller: state.controller,
           tabBuilder: (context, index) {
             switch (index) {
               case 0:
@@ -123,8 +106,12 @@ class _MainPageState extends State<MainPage> {
             }
           },
         );
+      },
+    );
+  }
+}
 
-        /* return Scaffold(
+/* return Scaffold(
           backgroundColor: Colors.white,
           body: Builder(
             builder: (context) {
@@ -191,7 +178,3 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
         );*/
-      },
-    );
-  }
-}

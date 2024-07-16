@@ -16,7 +16,8 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
   }
 
   _loadCatalogMenu(GetCatalogMenuEvent event, Emitter<CatalogState> emit) async {
+    emit(state.copyWith(status: Status.loading));
     final data = await _repository.getCatalogs();
-    emit(state.copyWith(catalogMenuData: data));
+    emit(state.copyWith(catalogMenuData: data, status: Status.success));
   }
 }

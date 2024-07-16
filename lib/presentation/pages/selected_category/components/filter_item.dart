@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:texnomart/presentation/blocs/selected_category/selected_category_bloc.dart';
 
+import '../../../../utils/commons.dart';
 import 'dialog.dart';
 
 class FilterItem extends StatelessWidget {
@@ -19,6 +20,8 @@ class FilterItem extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (ctx) => Dialog(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.transparent,
                   child: OrderProductsDialog(
                     orderType: context.read<SelectedCategoryBloc>().state.sort,
                     onTap: (orderType) {
@@ -29,38 +32,30 @@ class FilterItem extends StatelessWidget {
                 ),
               );
             },
-            child: Expanded(
-              child: Row(
-                children: [
-                  SvgPicture.asset('assets/svgs/sort_icon.svg'),
-                  const SizedBox(width: 8),
-                  Text(
-                    getOrderName(context.read<SelectedCategoryBloc>().state.sort),
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  )
-                ],
-              ),
+            child: Row(
+              children: [
+                SvgPicture.asset('assets/svgs/sort_icon.svg'),
+                const SizedBox(width: 8),
+                Text(
+                  getOrderName(context.read<SelectedCategoryBloc>().state.sort),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                )
+              ],
             ),
           ),
           const SizedBox(width: 24),
-          Expanded(
-              child: Row(children: [
+          Row(children: [
             SvgPicture.asset('assets/svgs/filter_icon.svg'),
             const SizedBox(width: 8),
             Text(
               'Filtrlar',
               style: Theme.of(context).textTheme.bodyLarge,
             )
-          ])),
+          ]),
+          Spacer(),
           const Icon(Icons.more_horiz),
         ],
       ),
     );
-  }
-
-  String getOrderName(String order) {
-    if (order == '-popular') return "Ommabopligi";
-    if (order == '-price') return "Nisbatan arzonligi";
-    return "Nisbatan qimmatligi";
   }
 }

@@ -16,74 +16,72 @@ class SelectedCategory extends StatelessWidget {
     return BlocConsumer<SelectedCategoryBloc, SelectedCategoryState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return BlocConsumer<SelectedCategoryBloc, SelectedCategoryState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return Scaffold(
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                title: Text(state.chips?.data.parent.name ?? '', style: Theme.of(context).textTheme.titleLarge),
-                centerTitle: false,
-                scrolledUnderElevation: 0,
-              ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 12.0,
-                ),
-                child: Builder(builder: (context) {
-                  return switch (state.status) {
-                    Status.success => Column(
-                        children: [
-                          if (state.chips != null) Chips(chips: state.chips!),
-                          const SizedBox(height: 12),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Column(
-                                children: [
-                                  const FilterItem(),
-                                  const SizedBox(height: 12),
-                                  if (state.products != null) ItemsGridView(products: state.products!),
-                                ],
-                              ),
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Text(state.chips?.data.parent.name ?? '', style: Theme.of(context).textTheme.titleLarge),
+            centerTitle: false,
+            scrolledUnderElevation: 0,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            child: Builder(
+              builder: (context) {
+                return switch (state.status) {
+                  Status.success => Column(
+                    mainAxisSize: MainAxisSize.max,
+                      children: [
+                        if (state.chips != null) Chips(chips: state.chips!),
+                        const SizedBox(height: 12),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              children: [
+                                const FilterItem(),
+                                const SizedBox(height: 12),
+                                if (state.products != null)
+                                  ItemsGridView(products: state.products!),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    Status.loading => Container(
-                        alignment: Alignment.center,
-                        child: Column(
-                          children: [
-                            const FilterItem(),
-                            const SizedBox(height: 12),
-                            Expanded(
-                                child:
-                                    Container(alignment: Alignment.center, child: Lottie.asset("assets/lottie/loading.json", width: 34, height: 34))),
-                          ],
                         ),
+                      ],
+                    ),
+                  Status.loading => Column(
+                      children: [
+                        if (state.chips != null) Chips(chips: state.chips!),
+                        const SizedBox(height: 12),
+                        const FilterItem(),
+                        const SizedBox(height: 12),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Lottie.asset("assets/lottie/loading.json", width: 34, height: 34),
+                          ),
+                        ),
+                      ],
+                    ),
+                  Status.initial => Center(),
+                  Status.fail => Center(
+                      child: Text(
+                        'Kutilmagan hatolik',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.red),
                       ),
-                    Status.initial => Center(),
-                    Status.fail =>
-                      Center(child: Text('Kutilmagan hatolik', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.red))),
-                  };
-                }),
-              ),
-            );
-          },
+                    ),
+                };
+              },
+            ),
+          ),
         );
       },
     );
   }
 }
-
-
-
-

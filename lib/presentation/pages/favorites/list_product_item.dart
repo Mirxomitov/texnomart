@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/data/model/favourite_model/favourite_model.dart';
+import 'package:texnomart/presentation/blocs/basket/basket_bloc.dart';
 import 'package:texnomart/presentation/blocs/favorites/favorite_bloc.dart';
 
 class ListProductItem extends StatelessWidget {
@@ -54,8 +55,10 @@ class ListProductItem extends StatelessWidget {
                       onTap: () {
                         if (favoriteBasket.isInBasket) {
                           context.read<FavoriteBloc>().add(RemoveFromBasket(data: favoriteBasket));
+                         // context.read<BasketBloc>().add(LoadBasketData());
                         } else {
                           context.read<FavoriteBloc>().add(AddToBasket(data: favoriteBasket));
+                          //context.read<BasketBloc>().add(LoadBasketData());
                         }
                       },
                       child: Container(
@@ -74,7 +77,7 @@ class ListProductItem extends StatelessWidget {
                     const SizedBox(width: 4),
                     IconButton(
                       onPressed: () {
-                        context.read<FavoriteBloc>().add(RemoveFromFavorite(favoriteBasket));
+                        context.read<FavoriteBloc>().add(FRemoveFromFavorite(favoriteBasket));
                       },
                       icon: const Icon(
                         Icons.favorite,

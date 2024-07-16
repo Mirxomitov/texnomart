@@ -10,10 +10,10 @@ final class AddToFavorite extends FavoriteEvent {
   AddToFavorite(this.data);
 }
 
-final class RemoveFromFavorite extends FavoriteEvent {
+final class FRemoveFromFavorite extends FavoriteEvent {
   final FavouriteModel data;
 
-  RemoveFromFavorite(this.data);
+  FRemoveFromFavorite(this.data);
 }
 
 final class AddToBasket extends FavoriteEvent {

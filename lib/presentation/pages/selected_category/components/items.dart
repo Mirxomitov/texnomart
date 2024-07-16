@@ -56,7 +56,6 @@ class ProductItem extends StatefulWidget {
 
 class _ProductItemState extends State<ProductItem> {
   bool get isFavourite => HiveHelper.hasInFavourite(widget.data.id!);
-
   bool get isInBasket => HiveHelper.hasInBasket(widget.data.id!);
 
   @override
@@ -128,9 +127,9 @@ class _ProductItemState extends State<ProductItem> {
                         if (widget.data.saleMonths != null && widget.data.saleMonths!.isNotEmpty && widget.data.saleMonths![0].image != null)
                           Positioned(
                             left: 10,
-                          bottom: 10,
-                          child: SvgPicture.network(widget.data.saleMonths![0].image!),
-                        ),
+                            bottom: 10,
+                            child: SvgPicture.network(widget.data.saleMonths![0].image!),
+                          ),
                         Positioned(
                           right: 10,
                           top: 10,
@@ -228,47 +227,44 @@ class _ProductItemState extends State<ProductItem> {
                           ),
                           const SizedBox(height: 12),
                           Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
-                                "${widget.data.salePrice.toString().toValue()} so'm",
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,
+                              Expanded(
+                                child: Text(
+                                  "${widget.data.salePrice.toString().toValue()} so'm",
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               const SizedBox(width: 8),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (isInBasket) {
-                                      HiveHelper.deleteBasketDataById(widget.data.id!);
-                                      context.read<BasketBloc>().add(LoadBasketData());
-                                      context.read<MainBloc>().add(LoadAllBasketData());
-                                    } else {
-                                      MainRepository.addToBasket(
-                                        BasketModel(
-                                          productId: widget.data.id!.toString(),
-                                          name: widget.data.name!,
-                                          price: widget.data.loanPrice!,
-                                          image: widget.data.image!,
-                                          isFavourite: isFavourite,
-                                          isChecked: true,
-                                          count: 1,
-                                        ),
-                                      );
+                              GestureDetector(
+                                onTap: () {
+                                  if (isInBasket) {
+                                    context.read<MainBloc>().add(ChangeBottomNavigation(chosenIndex: 2));
+                                  } else {
+                                    MainRepository.addToBasket(
+                                      BasketModel(
+                                        productId: widget.data.id!.toString(),
+                                        name: widget.data.name!,
+                                        price: widget.data.loanPrice!,
+                                        image: widget.data.image!,
+                                        isFavourite: isFavourite,
+                                        isChecked: true,
+                                        count: 1,
+                                      ),
+                                    );
 
-                                      context.read<BasketBloc>().add(LoadBasketData());
-                                      context.read<MainBloc>().add(LoadAllBasketData());
-                                    }
+                                    context.read<BasketBloc>().add(LoadBasketData());
+                                    context.read<MainBloc>().add(LoadAllBasketData());
+                                  }
 
-                                    setState(() {});
-                                  },
-                                  child: SvgPicture.asset(
-                                    isInBasket ? 'assets/svgs/in_cart.svg' : 'assets/svgs/to_cart_button.svg',
-                                    height: 28,
-                                    width: 28,
-                                  ),
+                                  setState(() {});
+                                },
+                                child: SvgPicture.asset(
+                                  isInBasket ? 'assets/svgs/in_cart.svg' : 'assets/svgs/to_cart_button.svg',
+                                  height: 28,
+                                  width: 28,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ],

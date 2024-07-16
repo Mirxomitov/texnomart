@@ -17,7 +17,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       MainRepository.addToFavourite(event.data);
       emit(state.copyWith(favoriteBasketList: [...state.favoriteBasketList, event.data]));
     });
-    on<RemoveFromFavorite>((event, emit) {
+    on<FRemoveFromFavorite>((event, emit) {
       print('RemoveFromFavorite');
       MainRepository.removeFromFavourite(event.data);
       final ls = state.favoriteBasketList;

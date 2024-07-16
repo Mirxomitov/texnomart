@@ -40,6 +40,7 @@ class PriceAndAddToBasket extends StatelessWidget {
               decoration: BoxDecoration(
                 color: added ? Colors.white : Theme.of(context).primaryColor ,
                 borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Theme.of(context).primaryColor)
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

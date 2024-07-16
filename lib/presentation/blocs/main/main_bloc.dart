@@ -1,8 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:texnomart/data/model/basket_model/basket_model.dart';
 import 'package:texnomart/data/source/local/hive/hive_helper.dart';
 
-import '../../../data/source/remote/response/catalog_menu/catalog_menu.dart';
 import '../../../utils/status.dart';
 
 part 'main_event.dart';
@@ -17,7 +16,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   _changeBottomNavigation(ChangeBottomNavigation event, Emitter<MainState> emit) {
     print('change bottom navigation is worked');
     emit(state.copyWith(notificationCount: HiveHelper.basket.values.toList().length));
-    emit(state.copyWith(bottomNavigationIndex: event.chosenIndex));
+    state.controller.index = event.chosenIndex;
+    emit(state.copyWith(controller: state.controller));
   }
 
   _loadAllBasketData(LoadAllBasketData event, Emitter<MainState> emit) {

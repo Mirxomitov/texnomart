@@ -1,38 +1,36 @@
 part of 'main_bloc.dart';
 
 class MainState {
-  final int bottomNavigationIndex;
+  final CupertinoTabController controller;
   final int notificationCount;
   final Status status;
 
   factory MainState.initial() {
     return MainState(
-      bottomNavigationIndex: 0,
+      controller: CupertinoTabController()..index = 0,
       notificationCount: 0,
       status: Status.success,
     );
   }
 
   MainState({
-    required this.bottomNavigationIndex,
     required this.notificationCount,
     required this.status,
+    required this.controller,
   });
 
   MainState copyWith({
-    int? bottomNavigationIndex,
-    CatalogMenu? catalogMenuUIData,
-    BasketModel? data,
+    CupertinoTabController? controller,
     int? notificationCount,
     Status? status,
   }) {
     return MainState(
-      bottomNavigationIndex: bottomNavigationIndex ?? this.bottomNavigationIndex,
+      controller: controller ?? this.controller,
       notificationCount: notificationCount ?? this.notificationCount,
       status: status ?? this.status,
     );
   }
 
   @override
-  String toString() => 'MainState(bottomNavigationIndex: $bottomNavigationIndex,status: $status)';
+  String toString() => 'MainState(bottomNavigationIndex: ${controller.index}, status: $status)';
 }

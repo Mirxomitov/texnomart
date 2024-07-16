@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart/data/model/basket_model/basket_model.dart';
+import 'package:texnomart/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:texnomart/presentation/blocs/profile/profile_bloc.dart';
 import 'package:texnomart/utils/to_value.dart';
 
